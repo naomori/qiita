@@ -180,7 +180,7 @@ Main programming language used: |Ruby| Python
 Qiitaのアクセストークンは暗号化して、`.travis.yml`に追加します。
 
 ```bash
-$ travis encrypt QIITA_TOEKN=$QIITA_TOKEN --add
+$ travis encrypt QIITA_TOEKN=<access_token> --add
 Overwrite the config file /home/<user_name>/github/qiita/.travis.yml with the content below?
 
 This reformats the existing file.
@@ -208,14 +208,14 @@ y
 ```yaml
 language: python
 python:
-  - '3.7'
+- '3.7'
 branches:
   only:
-    - master
+  - master
 install:
-  - pip install -r requirements_travis.txt
+- pip install -r requirements_travis.txt
 script:
-  - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then python deploy.py; fi'
+- 'if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then python deploy.py; fi'
 env:
   global:
     secure: XXX
@@ -227,6 +227,28 @@ env:
 $ pip freeze > requirements_travis.txt
 ```
 
+# 運用方法
+
+さて、最後に、このレポジトリの運用方法についてですが、スクリプトはこのリポジトリの`item`ディレクトリに含まれる`README.md`を記事として投稿します。そして、その記事のタイトルなどは、`params.json`に設定します。
+つまり、新しい記事は常に`item`ディレクトリに配置しておく必要があります。
+そこで、以下のように運用していきたいと思います。
+
+## 新しい記事を作成するとき
+
+1. `item_XXX`(XXXは文字通り'XXX'という文字列)ディレクトリを作成する
+2. そのディレクトリの配下に`README.md`,`params.json`を作成する
+3. `item`から`item_XXX`にシンボリックリンクを貼る
+4. git で commit & push する
+5. 記事の作成が成功したら、その記事の`ITEM_ID`(URLに含まれている文字列)をコピーする
+6. `item_XXX`を`item_$ITEM_ID`に変更し、そのディレクトリの中に`ITEM_ID`というファイルを作成する
+7. シンボリックリンク`item`を削除する
+
+## 既存の記事を更新するとき
+
+1. シンボリックリンク`item`から更新したい記事のディレクトリにリンクを貼る
+2. 記事を更新する
+3. git で commit & push する
+4. シンボリックリンク`item`を削除する
 
 [Qiitaの記事をGitHubで管理してTravisCI経由で自動投稿する]: https://qiita.com/rednes/items/2d76435434ac632fc6d4
 [Qiita-設定-アプリケーション]: https://qiita.com/settings/applications

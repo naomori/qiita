@@ -23,9 +23,7 @@ if os.path.exists(item_id_file_path):
     with open(item_id_file_path) as f:
         item_id = f.read()
     res = client.update_item(item_id, params, headers)
-    print(res.to_json())
+#    print(res.to_json())
 else:
     res = client.create_item(params, headers)
-#    res = client.get_user('naomori')
-    print(res.to_json())
-
+#    print(res.to_json())
