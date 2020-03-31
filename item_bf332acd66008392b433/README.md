@@ -208,15 +208,14 @@ y
 ```yaml
 language: python
 python:
-- '3.3'
-- pypy
+  - '3.7'
 branches:
   only:
     - master
 install:
   - pip install -r requirements_travis.txt
 script:
-  - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then python deploy/deploy.py; fi'
+  - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then python deploy.py; fi'
 env:
   global:
     secure: XXX
