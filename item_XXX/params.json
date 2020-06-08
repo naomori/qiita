@@ -1,0 +1,17 @@
+{
+  "title": "Amazon Rekognition で顔・ナンバープレートにモザイクをかける",
+  "tags": [
+    {
+      "name": "Github",
+      "versions": []
+    },
+    {
+      "name": "TravisCI",
+      "versions": []
+    }
+  ],
+  "coediting": false,
+  "gist": false,
+  "private": false,
+  "tweet": false
+}
