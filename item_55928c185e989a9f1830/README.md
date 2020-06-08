@@ -39,7 +39,7 @@ Machine Learning, Deep Learning でいろんなことができそう！と思っ
 
 今回の全体像を示します。
 
-![Face and Vehicle registration plates detection Overview](https://github.com/naomori/qiita-images/blob/master/item_55928c185e989a9f1830/Face_and_VehicleRegistrationPlates_Detection_Overview.png "Face and Vehicle registration plates detection Overview")
+![Face and VehicleRegistrationPlates Detection Overview](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/244489/88bd27a9-499c-1fec-cb4e-6ee753f54e6e.png "Face and VehicleRegistrationPlates Detection Overview")
 
 次回から以下を１つ１つ説明する予定です。
 
