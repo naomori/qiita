@@ -22,7 +22,6 @@ with open(body_file_path) as f:
 if os.path.exists(item_id_file_path):
     with open(item_id_file_path) as f:
         item_id = f.read()
-        print(item_id)
         res = client.update_item(item_id, params, headers)
 #    print(res.to_json())
 else:
