@@ -8,6 +8,8 @@ install:
 - pip install -r requirements_travis.txt
 script:
 - if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then python deploy.py; fi
+notifications:
+  email: false
 env:
   global:
   - secure: TH2uJyH58FcTeijhBYqYKjsppgl/M7nnhrmakxqY/KeDhGAb2eojcQPI93QY/FSi/guxQi8oGzE5la4IgSTWf3HyaWlthxom450MqNV4YMiRdusRsoATDGh8pU2d2fS5C2OxcWE9ypZPiEWxBLBkmvUymYcT6tejllKF6wjiUcJojDxlgQT3kPG7vOhuRPSwVEslvWzRslmayMkRiaiMLT5tdoitj4bo1iXJzFpv4H6yd/kzopKvo5lwMM8bX25sPCh3jWA9ap8xHGKZv07oCFhmFKYBf1Jb0mFAN1/TAkgT6lf08/Aj0wxSv9T30WQAXUn/sEnJD5vlLu1/EARNzhONTWq7fa6ko+AN+Bqaql2e0as8E1rgzqC95L9lb6gt9WVl6Pcq/9+ez/ELjFhrmhaIDLr+yLNEdWe0bIIHCTtMJA1jzGKS1byUMq0bB0pW+wTdOA2kPJ8lNHmpzn1zA6HPmOLVfXpvvWUQ4UzuKnElsfeH5htRQCW/RMROWm3GNhBpGkKggYiFmnImajLbA0kwdXN8YgWdyq820ol7K6AR61VR0KSO7mHqgFYvlX0KPWms+7TpMvqq58IpUkBA/GNJZXayicydGuPxKLtStj3i8XFHSIH2bwgbQV3a/Q/4ef39+NnjXMBw+dr2/D66mS2aDkZ2j7/8CJ8t5HauPy0=
