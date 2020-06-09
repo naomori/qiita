@@ -357,6 +357,7 @@ df_train_extract.to_csv(outfiles['train'])
 ```
 
 それぞれのファイルがさらに小さくなり扱いやすくなりました。
+
 * Train: oidv6-train-annotations-bbox.csv (2.2G)
   - oidv6-train-annotations-bbox_pickup.csv (87M)
   - **oidv6-train-annotations-bbox_pickup-vrp.csv (4.3M)**

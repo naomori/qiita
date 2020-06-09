@@ -2,11 +2,31 @@
   "title": "Open Images Dataset V6 + ExtensionsからAmazon SageMaker Ground Truth形式のデータセットを作成する",
   "tags": [
     {
-      "name": "Github",
+      "name": "Python",
       "versions": []
     },
     {
-      "name": "TravisCI",
+      "name": "DeepLearning",
+      "versions": []
+    },
+    {
+      "name": "OpenImagesDataset",
+      "versions": []
+    },
+    {
+      "name": "AmazonRekognition",
+      "versions": []
+    },
+    {
+      "name": "SageMakerGroundTruth",
+      "versions": []
+    },
+    {
+      "name": "AmazonRekognitionCustomLabels",
+      "versions": []
+    },
+    {
+      "name": "AmazonRekognition",
       "versions": []
     }
   ],
