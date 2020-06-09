@@ -18,15 +18,15 @@
       "versions": []
     },
     {
-      "name": "AmazonRekognitionCustomLabels",
-      "versions": []
-    },
-    {
       "name": "SageMakerGroundTruth",
       "versions": []
     },
     {
-      "name": "AWSLambda",
+      "name": "AmazonRekognitionCustomLabels",
+      "versions": []
+    },
+    {
+      "name": "AmazonRekognition",
       "versions": []
     }
   ],
