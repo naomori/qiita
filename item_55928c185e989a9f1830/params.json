@@ -2,11 +2,47 @@
   "title": "Amazon Rekognition で顔・ナンバープレートにモザイクをかける",
   "tags": [
     {
-      "name": "Github",
+      "name": "AWS",
       "versions": []
     },
     {
-      "name": "TravisCI",
+      "name": "Python",
+      "versions": []
+    },
+    {
+      "name": "DeepLearning",
+      "versions": []
+    },
+    {
+      "name": "OpenImagesDataset",
+      "versions": []
+    },
+    {
+      "name": "AmazonRekognition",
+      "versions": []
+    },
+    {
+      "name": "AmazonRekognitionCustomLabels",
+      "versions": []
+    },
+    {
+      "name": "SageMakerGroundTruth",
+      "versions": []
+    },
+    {
+      "name": "DetectFaces",
+      "versions": []
+    },
+    {
+      "name": "DetectCustomLabels",
+      "versions": []
+    },
+    {
+      "name": "AWSLambda",
+      "versions": []
+    },
+    {
+      "name": "AI",
       "versions": []
     }
   ],
