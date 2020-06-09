@@ -118,11 +118,13 @@ aws s3 --no-sign-request cp s3://open-images-dataset/tar/test.tar.gz .
 ```
 
 また、アノテーション(バウンディングボックス)もダウンロードします(`Boxes - Train/Validation/Test`)。
+
 * Train: oidv6-train-annotations-bbox.csv (2.2G)
 * Validation: validation-annotations-bbox.csv (24M)
 * Test: test-annotations-bbox.csv (74M)
 
 あと、クラスIDとクラス名との対応表をダウンロードします(`Metadata - Class Names`)。
+
 * Class Names: class-descriptions-boxable.csv (12K)
 
 かなり大きなデータなので、何回かに分けて夜中にダウンロードしておきます。
@@ -268,6 +270,7 @@ test-annotations-bbox.csv >> test-annotations-bbox_pickup.csv
 ```
 
 それぞれのファイルが小さくなり扱いやすくなりました。
+
 * Train: oidv6-train-annotations-bbox.csv (2.2G)
   - **oidv6-train-annotations-bbox_pickup.csv (87M)**
 * Validation: validation-annotations-bbox.csv (24M)
@@ -456,6 +459,7 @@ with ProcessPoolExecutor(max_workers=8) as executor:
 を参考に、これらのデータセットをAmazon SageMaker Ground Truth形式に変換します。
 
 出力ファイルは２つです。
+
 1. output.manifest
     - Amazon SageMaker Ground Truth 形式のマニフェストファイル
     - Amazon Rekognition Custom Labels のトレーニング用データセット
@@ -464,6 +468,7 @@ with ProcessPoolExecutor(max_workers=8) as executor:
     - Amazon S3 にアップロードするために使用する
 
 マニフェストファイルに含むクラスは以下です。
+
 * "/m/01jfm_": "vehicle_registration_plate"
 * "/m/0k4j": "car"
 * "/m/07yv9": "vehicle"
