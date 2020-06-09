@@ -39,12 +39,11 @@ Machine Learning, Deep Learning でいろんなことができそう！と思っ
 
 今回の全体像を示します。
 
-![Face and VehicleRegistrationPlates Detection Overview](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/244489/88bd27a9-499c-1fec-cb4e-6ee753f54e6e.png "Face and VehicleRegistrationPlates Detection Overview")
+![Face_and_VehicleRegistrationPlates_Detection_Overview.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/244489/08d27f95-b123-28f8-c2f3-8a3b64172d6a.png)
 
 次回から以下を１つ１つ説明する予定です。
 
-1. [Open Images Dataset V6 + Extensions][]から[Amazon SageMaker Ground Truth][]形式のデータセットを作成する
-    - T.B.D.
+1. [Open Images Dataset V6 + ExtensionsからAmazon SageMaker Ground Truth形式のデータセットを作成する](https://qiita.com/naomori/items/88fa381b1348100977ff)
 2. [Amazon Rekognition Custom Labels][]でカスタムモデルをトレーニングする
     - T.B.D.
 3. [AWS Lambda][]で[Amazon S3][]にアップロードされた動画を静止画にする
