@@ -9,7 +9,11 @@
 [Amazon Rekognition Custom Labels][]でナンバープレートを検出するためには、
 検知したい内容に合わせてトレーニング画像セットをアップロードする必要があります。
 
-## 目的
+今回の説明の範囲は以下です。
+
+![Face_and_VehicleRegistrationPlates_Detection_Overview-Dataset.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/244489/a05dd355-5def-ea0a-aec8-d27598a22fd6.png)
+
+## 1. 目的
 
 ナンバープレートの画像を集めるのはとても大変です。
 しかも、その画像にアノテーション情報をつけるのはもっと大変です。
@@ -19,7 +23,7 @@
 [Open Images Dataset V6 + Extensions][]の中から、
 ナンバープレートを含む画像とそのアノテーション情報を利用することにします。
 
-## データセット
+## 2. データセット
 
 データセットには様々なものがあり、それぞれ何を目的としているのかにより、
 様々な特徴があるようです。
@@ -53,7 +57,7 @@ Googleが提供している世界最大の画像データセットで、200万�
 
 [VoTTで作成したデータをCustom Labelsで利用可能なAmazon SageMaker Ground Truth形式に変換してみました](https://itnews.org/news_resources/153740)
 
-## Open Images Dataset V6 + Extensions のダウンロード
+## 3. Open Images Dataset V6 + Extensions のダウンロード
 
 まずは、[Open Images Dataset V6 Download][]からダウンロードします。
 データセットは、Amazon S3 に置いてあるため、ダウンロードには、AWS CLI を使います。
@@ -75,7 +79,6 @@ aws s3 --no-sign-request sync s3://open-images-dataset/test ./test
 あるいは、分割されたファイルでダウンロードすることもできます。
 今回はこちらの方法でダウンロードしました。
 
-<details><summary>分割された画像tarballsのダウンロード</summary><div>
 * train_0.tar.gz (46G)
 * train_1.tar.gz (34G)
 * train_2.tar.gz (33G)
@@ -93,7 +96,7 @@ aws s3 --no-sign-request sync s3://open-images-dataset/test ./test
 * train_e.tar.gz (28G)
 * train_f.tar.gz (28G)
 
-\```bash
+```bash
 aws s3 --no-sign-request cp s3://open-images-dataset/tar/train_0.tar.gz .
 aws s3 --no-sign-request cp s3://open-images-dataset/tar/train_1.tar.gz .
 aws s3 --no-sign-request cp s3://open-images-dataset/tar/train_2.tar.gz .
@@ -112,8 +115,7 @@ aws s3 --no-sign-request cp s3://open-images-dataset/tar/train_e.tar.gz .
 aws s3 --no-sign-request cp s3://open-images-dataset/tar/train_f.tar.gz .
 aws s3 --no-sign-request cp s3://open-images-dataset/tar/validation.tar.gz .
 aws s3 --no-sign-request cp s3://open-images-dataset/tar/test.tar.gz .
-\```
-</div></details>
+```
 
 また、アノテーション(バウンディングボックス)もダウンロードします(`Boxes - Train/Validation/Test`)。
 * Train: oidv6-train-annotations-bbox.csv (2.2G)
@@ -125,7 +127,7 @@ aws s3 --no-sign-request cp s3://open-images-dataset/tar/test.tar.gz .
 
 かなり大きなデータなので、何回かに分けて夜中にダウンロードしておきます。
 
-## Amazon SageMaker Ground Truth 形式
+## 4. Amazon SageMaker Ground Truth 形式
 
 Amazon SageMaker Ground Truth 形式は、
 [Amazon SageMaker 出力データ][]の「境界ボックスジョブの出力」に記載があります。
@@ -216,7 +218,7 @@ Amazon SageMaker Ground Truth 形式は、
 [Amazon SageMaker Ground Truth][]のデータセットである`manifest`ファイルです。
 画像ファイル自体は、s3に置いておく必要があります。
 
-## アノーテション情報の1次選別
+## 5. アノーテション情報の1次選別
 
 こちらの
 [Open Image Dataset V5を使ってみる](https://blog.imind.jp/entry/2019/06/18/210510)
@@ -274,7 +276,7 @@ test-annotations-bbox.csv >> test-annotations-bbox_pickup.csv
   - **test-annotations-bbox_pickup.csv (5.4M)**
 
 
-## アノテーション情報の2次選別
+## 6. アノテーション情報の2次選別
 
 今回必要なのは、ナンバープレート情報です。
 1次選別では、交通関連の物体のどれかが含まれている画像が選別されており、
@@ -363,7 +365,7 @@ df_train_extract.to_csv(outfiles['train'])
   - **test-annotations-bbox_pickup-vrp.csv (957K)**
 
 
-## 画像の選別
+## 7. 画像の選別
 
 ナンバープレートのアノテーション情報のある画像IDを取得し、
 ダウンロードした画像のtarballから、その画像ファイルだけを展開します。
@@ -446,7 +448,7 @@ with ProcessPoolExecutor(max_workers=8) as executor:
 これで、ナンバープレートを含む画像のみをtarballから展開し、
 各ディレクトリ以下に保存することができました。
 
-## Amazon SageMaker Ground Truth でデータセット作成
+## 8. Amazon SageMaker Ground Truth でデータセット作成
 
 ここまでで、必要な画像を取得でき、アノテーション情報も取得できました。
 ここからは、
@@ -475,9 +477,7 @@ with ProcessPoolExecutor(max_workers=8) as executor:
 今回は、すべての画像ファイル(train/validation/test)を
 トレーニング用データセット(validation含む)に含むようにします。
 
-<details><summary>アノテーション情報と画像tarballからマニフェストファイルを作成するスクリプト</summary><div>
-
-\```python
+```python
 import json
 import glob
 import datetime
@@ -658,17 +658,14 @@ with open(output_manifest, 'w') as out_manifest:
 
 with open(output_image_paths, 'wb') as out_paths:
     pickle.dump(image_paths, out_paths)
-\```
-</div></details>
+```
 
-## マニフェストと画像ファイルのアップロード
+## 9. マニフェストと画像ファイルのアップロード
 
 作成したマニフェストファイルと画像ファイルは
 Amazon S3 にアップロードする必要があります。
 
-<details><summary>マニフェストと画像ファイルのアップロードのためのスクリプト</summary><div>
-
-\```python
+```python
 import os
 import pickle
 
@@ -704,10 +701,16 @@ with open(jpg_paths_file, 'rb') as jpg_paths_obj:
             executor.submit(upload_file, s3_bucket, jpg_path)
 
 upload_file(s3_bucket, manifest_file, True)
-\```
-</div></details>
+```
 
 ## まとめ
+
+[Amazon Rekognition Custom Labels][]で自分専用のモデルをトレーニングするためには、
+データセットが必要ですが、データセットの作成はとても手間がかかります。
+オープンなデータセット[Open Images Dataset V6 + Extensions][]を
+[Amazon Rekognition Custom Labels][]で利用可能な
+[Amazon SageMaker Ground Truth][]形式に変換することで、
+自分専用のモデルをトレーニングするためのデータセットを作成することができます。
 
 ## 次回
 
