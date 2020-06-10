@@ -10,7 +10,8 @@
 
 今回の説明の範囲は以下です。
 
-**figure**
+![Face_and_VehicleRegistrationPlates_Detection_Overview-Training.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/244489/b03eddd5-c6e6-fe28-aa61-bac417497316.png)
+
 
 ## 1. 目的
 
@@ -24,7 +25,7 @@
 
 [Amazon Rekognition の料金](https://aws.amazon.com/jp/rekognition/pricing/?nc=sn&loc=4)
 
-**figure**
+![Amazon_Rekognition_Custom_Labels_pricing.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/244489/bfc964bd-f9fa-f18b-8736-5633c740049b.png)
 
 
 トレーニングは頻繁にするものではないと思いますので大丈夫だとは思いますが、
@@ -51,16 +52,16 @@ Amazon S3上のマニフェストファイルを選択します。
 トレーニング結果は以下のようになりました。
 画像ファイル数が多いため、トレーニング時間は8時間45分かかりました。
 
-**figure**
+![evaluation_results_8157.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/244489/fba358a8-dc91-44de-797e-467b671863c7.png)
 
-**figure**
+![per_label_performance_8157.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/244489/eb55dd9c-6424-527e-19ba-32e06def09fd.png)
 
 画像ファイル 500枚でもトレーニングしてみましたが、
 トレーニング時間は7時間12分かかりました。
 
-**figure**
+![evaluation_results_500.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/244489/a651a9d0-ec7a-1507-4f49-a5813aca2d7f.png)
 
-**figure**
+![per_label_performance_500.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/244489/dee9b6ee-bd15-615f-a5b2-cc731f32750f.png)
 
 トレーニング時間は、画像ファイル数に比例するのではなく、
 もともとこれくらいかかるのかもしれません。
@@ -73,8 +74,8 @@ Amazon S3上のマニフェストファイルを選択します。
 
 `AMAZON_RESOURCE_NAME`,`REGION`は、トレーニングしたモデルに合わせて適切な値を使用してください。
 
-* モデル開始スクリプト
-```bash:start_model.sh
+#### モデル開始スクリプト
+```bash
 aws rekognition start-project-version \
   --project-version-arn "AMAZON_RESOURCE_NAME" \
   --min-inference-units 1 \
@@ -90,7 +91,7 @@ aws rekognition start-project-version \
 `MY_BUCKET`,`PATH_TO_MY_IMAGE`は、
 オブジェクト検知をしたい画像ファイルの置き場所に合わせて適切な値を使用してください。
 
-* オブジェクト検知スクリプト
+#### オブジェクト検知スクリプト
 ```bash
 aws rekognition detect-custom-labels \
   --project-version-arn "AMAZON_RESOURCE_NAME" \
@@ -98,9 +99,11 @@ aws rekognition detect-custom-labels \
   --region REGION
 ```
 
-**figure**
+以下の画像に対して、推論を実行してみます。
 
-この画像に対して、推論を実行すると、以下のような json データを取得できます。
+![9c5f2a31335627a0.jpg](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/244489/addb2ff7-6e67-3ed9-4986-a7f9be8ad2ae.jpeg)
+
+すると、以下のような json データを取得できます。
 
 ```JSON
 {
@@ -575,13 +578,13 @@ plt.show()
 cv2.imwrite(output_image_path, image)
 ```
 
-**figure**
+![9c5f2a31335627a0-detect.jpg](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/244489/f9ae1f6d-b9e9-b8f2-cb5a-b661193975bc.jpeg)
 
 良い感じに検知していそうです。
 
 最後にモデルを停止しておきます。
 
-* モデル停止スクリプト
+#### モデル停止スクリプト
 ```bash:stop_model.sh
 aws rekognition stop-project-version \
   --project-version-arn "AMAZON_RESOURCE_NAME" \
