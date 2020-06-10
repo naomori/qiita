@@ -1,6 +1,11 @@
 {
   "title": "Amazon Rekognition Custom Labelsでカスタムモデルをトレーニングする",
-  "tags": [],
+  "tags": [
+    {
+      "name": "Python",
+      "versions": []
+    }
+  ],
   "coediting": false,
   "gist": false,
   "private": false,
