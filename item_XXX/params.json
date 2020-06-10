@@ -1,0 +1,37 @@
+{
+  "title": "Amazon Rekognition Custom Labelsでカスタムモデルをトレーニングする",
+  "tags": [
+    {
+      "name": "Python",
+      "versions": []
+    },
+    {
+      "name": "DeepLearning",
+      "versions": []
+    },
+    {
+      "name": "OpenImagesDataset",
+      "versions": []
+    },
+    {
+      "name": "AmazonRekognition",
+      "versions": []
+    },
+    {
+      "name": "SageMakerGroundTruth",
+      "versions": []
+    },
+    {
+      "name": "AmazonRekognitionCustomLabels",
+      "versions": []
+    },
+    {
+      "name": "AmazonRekognition",
+      "versions": []
+    }
+  ],
+  "coediting": false,
+  "gist": false,
+  "private": false,
+  "tweet": false
+}
