@@ -722,10 +722,9 @@ upload_file(s3_bucket, manifest_file, True)
 
 **Amazon Rekognition Custom Labels でカスタムモデルをトレーニングする**を説明する予定です。
 
-1. [Open Images Dataset V6 + Extensions][]から[Amazon SageMaker Ground Truth][]形式のデータセットを作成する
+1. [Open Images Dataset V6 + ExtensionsからAmazon SageMaker Ground Truth形式のデータセットを作成する](https://qiita.com/naomori/items/88fa381b1348100977ff)
     - 本記事
-2. [Amazon Rekognition Custom Labels][]でカスタムモデルをトレーニングする
-    - T.B.D.
+2. [Amazon Rekognition Custom Labelsでカスタムモデルをトレーニングする](https://qiita.com/naomori/items/0f81db1022d15485441c)
 3. [AWS Lambda][]で[Amazon S3][]にアップロードされた動画を静止画にする
     - T.B.D.
 4. [AWS Lambda][]で[DetectFaces][]オペレーションを使って顔を検出します
