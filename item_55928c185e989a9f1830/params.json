@@ -2,10 +2,6 @@
   "title": "Amazon Rekognition で顔・ナンバープレートにモザイクをかける",
   "tags": [
     {
-      "name": "Python",
-      "versions": []
-    },
-    {
       "name": "DeepLearning",
       "versions": []
     },
@@ -18,15 +14,11 @@
       "versions": []
     },
     {
-      "name": "SageMakerGroundTruth",
-      "versions": []
-    },
-    {
       "name": "AmazonRekognitionCustomLabels",
       "versions": []
     },
     {
-      "name": "AmazonRekognition",
+      "name": "SageMakerGroundTruth",
       "versions": []
     }
   ],
