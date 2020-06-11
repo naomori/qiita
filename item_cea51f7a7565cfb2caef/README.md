@@ -7,7 +7,7 @@
 
 今回の説明の範囲は以下です。
 
-**figure**
+![Face_and_VehicleRegistrationPlates_Detection_Overview-Detection.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/244489/3c83a19f-e416-e90e-8320-7020fdfa7c07.png)
 
 今回は、[Amazon S3][]に動画ファイル(.mov)がアップロードされたことをトリガーに
 [AWS Lambda][]を実行し、その中で、動画ファイルを静止画に分解します。
@@ -1022,16 +1022,16 @@ def bbox_correction(height, width, bbox_h, bbox_w, bbox_t, bbox_l):
 
 # Amazon Rekognition で動画中の顔・ナンバープレートにモザイクをかける - 全記事
 
-* Overview: [Amazon Rekognition で動画中の顔・ナンバープレートにモザイクをかける]()
+**Overview:** [Amazon Rekognition で動画中の顔・ナンバープレートにモザイクをかける]()
 
 1. [Open Images Dataset V6 + ExtensionsからAmazon SageMaker Ground Truth形式のデータセットを作成する][]
 2. [Amazon Rekognition Custom Labelsでカスタムモデルをトレーニングする][]
-3. Amazon S3にアップロードされた動画内の個人情報にモザイクをかける
-    - 本記事
+3. [Amazon S3にアップロードされた動画内の個人情報にモザイクをかける][]
 
 [Amazon Rekognition で動画中の顔・ナンバープレートにモザイクをかける]: https://qiita.com/naomori/items/55928c185e989a9f1830
 [Open Images Dataset V6 + ExtensionsからAmazon SageMaker Ground Truth形式のデータセットを作成する]: https://qiita.com/naomori/items/88fa381b1348100977ff
 [Amazon Rekognition Custom Labelsでカスタムモデルをトレーニングする]: https://qiita.com/naomori/items/0f81db1022d15485441c
+[Amazon S3にアップロードされた動画内の個人情報にモザイクをかける]: https://qiita.com/drafts/cea51f7a7565cfb2caef/edit
 
 [VoTTで作成したデータをCustom Labelsで利用可能なAmazon SageMaker Ground Truth形式に変換してみました]: https://dev.classmethod.jp/articles/rekognition-custom-labels-convert-vott/
 
