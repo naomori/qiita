@@ -1,6 +1,4 @@
-# Amazon Rekognition Custom Labelsでカスタムモデルをトレーニングする
-
-## はじめに
+# はじめに
 
 前回、[Open Images Dataset V6 + ExtensionsからAmazon SageMaker Ground Truth形式のデータセットを作成する][]の結果、
 [Amazon S3][]に画像データとマニフェストファイルがアップロードされました。
@@ -13,13 +11,13 @@
 ![Face_and_VehicleRegistrationPlates_Detection_Overview-Training.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/244489/b03eddd5-c6e6-fe28-aa61-bac417497316.png)
 
 
-## 1. 目的
+# 1. 目的
 
 アップロードしたデータセットを元に、[Amazon Rekognition Custom Labels][]をトレーニングし、
 画像ファイルに含まれるナンバープレートを検知するためのモデルを構築します。
 また、構築したモデルを使ってAWS CLIでテストをしてみます。
 
-## 2. Amazon Rekognition Custom Labels の料金
+# 2. Amazon Rekognition Custom Labels の料金
 
 現在の料金は以下のようになっています。
 
@@ -31,7 +29,7 @@
 トレーニングは頻繁にするものではないと思いますので大丈夫だとは思いますが、
 推論は、リソースのプロビジョニングを手動で停止しない限り課金されますので、注意が必要です。
 
-## 3. 具体的な手順
+# 3. 具体的な手順
 
 具体的な手順は、こちらの方がとても丁寧に説明してくださっていますので、割愛します。
 
@@ -44,7 +42,7 @@
 Amazon S3上のマニフェストファイルを選択します。
 以上でデータセットの登録が完了し、モデルをトレーニングできます。
 
-## 4. モデルのトレーニング
+# 4. モデルのトレーニング
 
 今回は、車関連の画像ファイル 8157枚 でトレーニングしています。
 数百枚で良いとのことなのですが、とりあえず全部入れてみました。
@@ -67,7 +65,7 @@ Amazon S3上のマニフェストファイルを選択します。
 もともとこれくらいかかるのかもしれません。
 検知ラベル数にもよるのかな？
 
-## 5. 推論のテスト
+# 5. 推論のテスト
 
 推論を実行するためには、モデルを開始する必要があります。
 また、推論処理が必要なければ、課金を回避するためにモデルを停止しておきましょう。
@@ -104,6 +102,8 @@ aws rekognition detect-custom-labels \
 ![9c5f2a31335627a0.jpg](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/244489/addb2ff7-6e67-3ed9-4986-a7f9be8ad2ae.jpeg)
 
 すると、以下のような json データを取得できます。
+
+<details><summary>detect-custom-labelsのjsonデータ全体</summary><div>
 
 ```JSON
 {
@@ -483,6 +483,7 @@ aws rekognition detect-custom-labels \
     ]
 }
 ```
+</div></details>
 
 たくさんのオブジェクトを検知していますが、
 `Confidence`の値を**75**以上とすると、以下の２つに絞られます。
@@ -522,6 +523,8 @@ aws rekognition detect-custom-labels \
 Jupyter Notebook で確認すると楽です。
 また、検知したナンバープレートと車を四角で囲んだ画像を
 画像ファイルとして保存します。
+
+<details><summary>検知したナンバープレートと車を四角で囲んだ画像を画像ファイルとして保存するJupyterスクリプト</summary><div>
 
 ```Python
 #%%
@@ -577,6 +580,7 @@ ax[1].imshow(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
 plt.show()
 cv2.imwrite(output_image_path, image)
 ```
+</div></details>
 
 ![9c5f2a31335627a0-detect.jpg](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/244489/f9ae1f6d-b9e9-b8f2-cb5a-b661193975bc.jpeg)
 
@@ -591,7 +595,7 @@ aws rekognition stop-project-version \
   --region REGION
 ```
 
-## まとめ
+# まとめ
 
 [Open Images Dataset V6 + ExtensionsからAmazon SageMaker Ground Truth形式のデータセットを作成する][]で
 作成した自前のデータセットを用いて、自分専用のモデルを構築することができました。
@@ -605,24 +609,28 @@ aws rekognition stop-project-version \
 特に推論をするためには、モデルを開始する必要がありますが、
 最後にモデルを停止するのを忘れないようにしましょう。
 
-## 次回
+# 次回
 
-**AWS LambdaでAmazon S3にアップロードされた動画を静止画にする** を説明する予定です。
-
-1. [Open Images Dataset V6 + ExtensionsからAmazon SageMaker Ground Truth形式のデータセットを作成する](https://qiita.com/naomori/items/88fa381b1348100977ff)
-2. [Amazon Rekognition Custom Labelsでカスタムモデルをトレーニングする](https://qiita.com/naomori/items/0f81db1022d15485441c)
-    - 本記事
-3. [AWS Lambda][]で[Amazon S3][]にアップロードされた動画を静止画にする
-    - T.B.D.
-4. [AWS Lambda][]で[DetectFaces][]オペレーションを使って顔を検出します
-    - T.B.D.
-5. [AWS Lambda][]で[DetectCustomLabels][]オペレーションを使ってナンバープレートを検出します
-    - T.B.D.
-6. [AWS Lambda][]で検出した領域のモザイク処理を施し、静止画を動画に変換する
-    - T.B.D.
+[Amazon S3にアップロードされた動画内の個人情報にモザイクをかける][]を説明する予定です。
 
 
+**Overview:** [Amazon Rekognition で動画中の顔・ナンバープレートにモザイクをかける]()
+
+1. [Open Images Dataset V6 + ExtensionsからAmazon SageMaker Ground Truth形式のデータセットを作成する][]
+2. [Amazon Rekognition Custom Labelsでカスタムモデルをトレーニングする][]
+3. [Amazon S3にアップロードされた動画内の個人情報にモザイクをかける][]
+
+
+[Amazon Rekognition で動画中の顔・ナンバープレートにモザイクをかける]: https://qiita.com/naomori/items/55928c185e989a9f1830
 [Open Images Dataset V6 + ExtensionsからAmazon SageMaker Ground Truth形式のデータセットを作成する]: https://qiita.com/naomori/items/88fa381b1348100977ff
+[Amazon Rekognition Custom Labelsでカスタムモデルをトレーニングする]: https://qiita.com/naomori/items/0f81db1022d15485441c
+[Amazon S3にアップロードされた動画内の個人情報にモザイクをかける]: https://qiita.com/drafts/cea51f7a7565cfb2caef/edit
+
+[VoTTで作成したデータをCustom Labelsで利用可能なAmazon SageMaker Ground Truth形式に変換してみました]: https://dev.classmethod.jp/articles/rekognition-custom-labels-convert-vott/
+
+[PyCharm]: https://www.jetbrains.com/pycharm/
+[AWS Toolkit for PyCharm]: https://aws.amazon.com/jp/pycharm/
+
 [AWS Lambda]: https://aws.amazon.com/lambda/
 [Amazon S3]: https://aws.amazon.com/s3/
 [Amazon Rekognition]: https://aws.amazon.com/jp/rekognition/?nc=sn&loc=0
@@ -635,4 +643,10 @@ aws rekognition stop-project-version \
 [Open Images Dataset V6 Download]: https://storage.googleapis.com/openimages/web/download.html
 [AWS CLI のインストール]: https://docs.aws.amazon.com/ja_jp/cli/latest/userguide/cli-chap-install.html
 [Amazon SageMaker 出力データ]: https://docs.aws.amazon.com/ja_jp/sagemaker/latest/dg/sms-data-output.html
-[VoTTで作成したデータをCustom Labelsで利用可能なAmazon SageMaker Ground Truth形式に変換してみました]: https://dev.classmethod.jp/articles/rekognition-custom-labels-convert-vott/
+[AWS CloudFormation]: https://aws.amazon.com/jp/cloudformation/
+[Limits in Amazon Rekognition Custom Labels]: https://docs.aws.amazon.com/rekognition/latest/customlabels-dg/limits.html
+[Amazon Rekognition endpoints and quotas]:https://docs.aws.amazon.com/general/latest/gr/rekognition_region.html#limits_rekognition
+[Create case]: https://console.aws.amazon.com/support/cases#/create?issueType=service-limit-increase
+
+[Amazon EC2]: https://aws.amazon.com/jp/ec2/
+[Amazon SageMaker]: https://aws.amazon.com/jp/sagemaker/
