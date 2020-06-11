@@ -1,6 +1,4 @@
-# Open Images Dataset V6 + Extensions から Amazon SageMaker Ground Truth 形式のデータセットを作成する
-
-## はじめに
+# はじめに
 
 顔検出は、[Amazon Rekognition Image][]で実現できますが、
 ナンバープレートは、[Amazon Rekognition Image][]では検出できません。
@@ -13,7 +11,7 @@
 
 ![Face_and_VehicleRegistrationPlates_Detection_Overview-Dataset.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/244489/a05dd355-5def-ea0a-aec8-d27598a22fd6.png)
 
-## 1. 目的
+# 1. 目的
 
 ナンバープレートの画像を集めるのはとても大変です。
 しかも、その画像にアノテーション情報をつけるのはもっと大変です。
@@ -23,7 +21,7 @@
 [Open Images Dataset V6 + Extensions][]の中から、
 ナンバープレートを含む画像とそのアノテーション情報を利用することにします。
 
-## 2. データセット
+# 2. データセット
 
 データセットには様々なものがあり、それぞれ何を目的としているのかにより、
 様々な特徴があるようです。
@@ -57,7 +55,7 @@ Googleが提供している世界最大の画像データセットで、200万�
 
 [VoTTで作成したデータをCustom Labelsで利用可能なAmazon SageMaker Ground Truth形式に変換してみました](https://itnews.org/news_resources/153740)
 
-## 3. Open Images Dataset V6 + Extensions のダウンロード
+# 3. Open Images Dataset V6 + Extensions のダウンロード
 
 まずは、[Open Images Dataset V6 Download][]からダウンロードします。
 データセットは、Amazon S3 に置いてあるため、ダウンロードには、AWS CLI を使います。
@@ -77,7 +75,9 @@ aws s3 --no-sign-request sync s3://open-images-dataset/test ./test
 ```
 
 あるいは、分割されたファイルでダウンロードすることもできます。
-今回はこちらの方法でダウンロードしました。
+今回は分割されたファイルをダウンロードしました。
+
+<details><summary>分割ファイルのダウンロード</summary><div>
 
 * train_0.tar.gz (46G)
 * train_1.tar.gz (34G)
@@ -116,6 +116,7 @@ aws s3 --no-sign-request cp s3://open-images-dataset/tar/train_f.tar.gz .
 aws s3 --no-sign-request cp s3://open-images-dataset/tar/validation.tar.gz .
 aws s3 --no-sign-request cp s3://open-images-dataset/tar/test.tar.gz .
 ```
+</div></details>
 
 また、アノテーション(バウンディングボックス)もダウンロードします(`Boxes - Train/Validation/Test`)。
 
@@ -129,13 +130,15 @@ aws s3 --no-sign-request cp s3://open-images-dataset/tar/test.tar.gz .
 
 かなり大きなデータなので、何回かに分けて夜中にダウンロードしておきます。
 
-## 4. Amazon SageMaker Ground Truth 形式
+# 4. Amazon SageMaker Ground Truth 形式
 
 Amazon SageMaker Ground Truth 形式は、
 [Amazon SageMaker 出力データ][]の「境界ボックスジョブの出力」に記載があります。
 ですが、実際にAmazon SageMaker Ground Truthを使って出力したものは
 以下のようになっており、微妙にドキュメントと違うようです。
 今回は実際に出力された形式を利用することにします。
+
+<details><summary>Amazon SageMaker Ground Truth 形式のJSONファイル</summary><div>
 
 ```json
 {
@@ -205,6 +208,7 @@ Amazon SageMaker Ground Truth 形式は、
   }
 }
 ```
+</div></details>
 
 * `source-ref`は、画像ファイルの置き場所で、s3である必要があります。
 * `annotations`は、クラスIDとそのバウンディングボックスの情報です。
@@ -220,7 +224,7 @@ Amazon SageMaker Ground Truth 形式は、
 [Amazon SageMaker Ground Truth][]のデータセットである`manifest`ファイルです。
 画像ファイル自体は、s3に置いておく必要があります。
 
-## 5. アノーテション情報の1次選別
+# 5. アノーテション情報の1次選別
 
 こちらの
 [Open Image Dataset V5を使ってみる](https://blog.imind.jp/entry/2019/06/18/210510)
@@ -235,6 +239,8 @@ Amazon SageMaker Ground Truth 形式は、
 
 検知したい物体とクラスIDとの関連は、`class-descriptions-boxable.csv`ファイルで確認できます。
 今回は、検知したい物体として、交通関連のものをピックアップしました。
+
+<details><summary>アノーテション情報の1次選別 - bash スクリプト</summary><div>
 
 ```bash
 #!/bin/sh
@@ -268,6 +274,7 @@ head -1 test-annotations-bbox.csv > test-annotations-bbox_pickup.csv
 grep -E ${related_labels} \
 test-annotations-bbox.csv >> test-annotations-bbox_pickup.csv
 ```
+</div></details>
 
 それぞれのファイルが小さくなり扱いやすくなりました。
 
@@ -279,7 +286,7 @@ test-annotations-bbox.csv >> test-annotations-bbox_pickup.csv
   - **test-annotations-bbox_pickup.csv (5.4M)**
 
 
-## 6. アノテーション情報の2次選別
+# 6. アノテーション情報の2次選別
 
 今回必要なのは、ナンバープレート情報です。
 1次選別では、交通関連の物体のどれかが含まれている画像が選別されており、
@@ -288,6 +295,8 @@ test-annotations-bbox.csv >> test-annotations-bbox_pickup.csv
 
 2次選別したアノーテション情報を、ファイル名の末尾に`_pickup-vrp`を付加した
 csvファイルに保存することにします。
+
+<details><summary>アノテーション情報の2次選別 - Python スクリプト</summary><div>
 
 ```python
 import pandas as pd
@@ -355,6 +364,7 @@ df_train_extract = extract_label_name(df_train,
                                       vehicle_registration_plate_label_name)
 df_train_extract.to_csv(outfiles['train'])
 ```
+</div></details>
 
 それぞれのファイルがさらに小さくなり扱いやすくなりました。
 
@@ -369,12 +379,14 @@ df_train_extract.to_csv(outfiles['train'])
   - **test-annotations-bbox_pickup-vrp.csv (957K)**
 
 
-## 7. 画像の選別
+# 7. 画像の選別
 
 ナンバープレートのアノテーション情報のある画像IDを取得し、
 ダウンロードした画像のtarballから、その画像ファイルだけを展開します。
 画像 tarball は `$HOME/Downloads` に置いてある前提になっているので、
 違う場所にダウンロードした場合は、変更すれば大丈夫だと思います。
+
+<details><summary>画像の選別 - Python スクリプト</summary><div>
 
 ```python
 import os
@@ -448,11 +460,12 @@ with ProcessPoolExecutor(max_workers=8) as executor:
         print(f"train_images_tarball: {train_images_tarball}")
         executor.submit(extract_images, df_train, train_images_tarball)
 ```
+</div></details>
 
 これで、ナンバープレートを含む画像のみをtarballから展開し、
 各ディレクトリ以下に保存することができました。
 
-## 8. Amazon SageMaker Ground Truth でデータセット作成
+# 8. Amazon SageMaker Ground Truth でデータセット作成
 
 ここまでで、必要な画像を取得でき、アノテーション情報も取得できました。
 ここからは、
@@ -482,6 +495,8 @@ with ProcessPoolExecutor(max_workers=8) as executor:
 
 今回は、すべての画像ファイル(train/validation/test)を
 トレーニング用データセット(validation含む)に含むようにします。
+
+<details><summary>Amazon SageMaker Ground Truth形式への変換 - Python スクリプト</summary><div>
 
 ```python
 import json
@@ -665,11 +680,14 @@ with open(output_manifest, 'w') as out_manifest:
 with open(output_image_paths, 'wb') as out_paths:
     pickle.dump(image_paths, out_paths)
 ```
+</div></details>
 
-## 9. マニフェストと画像ファイルのアップロード
+# 9. マニフェストと画像ファイルのアップロード
 
 作成したマニフェストファイルと画像ファイルは
 Amazon S3 にアップロードする必要があります。
+
+<details><summary>マニフェストと画像ファイルのアップロード - Python スクリプト</summary><div>
 
 ```python
 import os
@@ -708,8 +726,9 @@ with open(jpg_paths_file, 'rb') as jpg_paths_obj:
 
 upload_file(s3_bucket, manifest_file, True)
 ```
+</div></details>
 
-## まとめ
+# まとめ
 
 [Amazon Rekognition Custom Labels][]で自分専用のモデルをトレーニングするためには、
 データセットが必要ですが、データセットの作成はとても手間がかかります。
@@ -718,21 +737,26 @@ upload_file(s3_bucket, manifest_file, True)
 [Amazon SageMaker Ground Truth][]形式に変換することで、
 自分専用のモデルをトレーニングするためのデータセットを作成することができます。
 
-## 次回
+# 次回
 
-**Amazon Rekognition Custom Labels でカスタムモデルをトレーニングする**を説明する予定です。
+[Amazon Rekognition Custom Labelsでカスタムモデルをトレーニングする][]を説明する予定です。
 
-1. [Open Images Dataset V6 + ExtensionsからAmazon SageMaker Ground Truth形式のデータセットを作成する](https://qiita.com/naomori/items/88fa381b1348100977ff)
-    - 本記事
-2. [Amazon Rekognition Custom Labelsでカスタムモデルをトレーニングする](https://qiita.com/naomori/items/0f81db1022d15485441c)
-3. [AWS Lambda][]で[Amazon S3][]にアップロードされた動画を静止画にする
-    - T.B.D.
-4. [AWS Lambda][]で[DetectFaces][]オペレーションを使って顔を検出します
-    - T.B.D.
-5. [AWS Lambda][]で[DetectCustomLabels][]オペレーションを使ってナンバープレートを検出します
-    - T.B.D.
-6. [AWS Lambda][]で検出した領域のモザイク処理を施し、静止画を動画に変換する
-    - T.B.D.
+**Overview:** [Amazon Rekognition で動画中の顔・ナンバープレートにモザイクをかける]()
+
+1. [Open Images Dataset V6 + ExtensionsからAmazon SageMaker Ground Truth形式のデータセットを作成する][]
+2. [Amazon Rekognition Custom Labelsでカスタムモデルをトレーニングする][]
+3. [Amazon S3にアップロードされた動画内の個人情報にモザイクをかける][]
+
+
+[Amazon Rekognition で動画中の顔・ナンバープレートにモザイクをかける]: https://qiita.com/naomori/items/55928c185e989a9f1830
+[Open Images Dataset V6 + ExtensionsからAmazon SageMaker Ground Truth形式のデータセットを作成する]: https://qiita.com/naomori/items/88fa381b1348100977ff
+[Amazon Rekognition Custom Labelsでカスタムモデルをトレーニングする]: https://qiita.com/naomori/items/0f81db1022d15485441c
+[Amazon S3にアップロードされた動画内の個人情報にモザイクをかける]: https://qiita.com/drafts/cea51f7a7565cfb2caef/edit
+
+[VoTTで作成したデータをCustom Labelsで利用可能なAmazon SageMaker Ground Truth形式に変換してみました]: https://dev.classmethod.jp/articles/rekognition-custom-labels-convert-vott/
+
+[PyCharm]: https://www.jetbrains.com/pycharm/
+[AWS Toolkit for PyCharm]: https://aws.amazon.com/jp/pycharm/
 
 [AWS Lambda]: https://aws.amazon.com/lambda/
 [Amazon S3]: https://aws.amazon.com/s3/
@@ -746,4 +770,10 @@ upload_file(s3_bucket, manifest_file, True)
 [Open Images Dataset V6 Download]: https://storage.googleapis.com/openimages/web/download.html
 [AWS CLI のインストール]: https://docs.aws.amazon.com/ja_jp/cli/latest/userguide/cli-chap-install.html
 [Amazon SageMaker 出力データ]: https://docs.aws.amazon.com/ja_jp/sagemaker/latest/dg/sms-data-output.html
-[VoTTで作成したデータをCustom Labelsで利用可能なAmazon SageMaker Ground Truth形式に変換してみました]: https://dev.classmethod.jp/articles/rekognition-custom-labels-convert-vott/
+[AWS CloudFormation]: https://aws.amazon.com/jp/cloudformation/
+[Limits in Amazon Rekognition Custom Labels]: https://docs.aws.amazon.com/rekognition/latest/customlabels-dg/limits.html
+[Amazon Rekognition endpoints and quotas]:https://docs.aws.amazon.com/general/latest/gr/rekognition_region.html#limits_rekognition
+[Create case]: https://console.aws.amazon.com/support/cases#/create?issueType=service-limit-increase
+
+[Amazon EC2]: https://aws.amazon.com/jp/ec2/
+[Amazon SageMaker]: https://aws.amazon.com/jp/sagemaker/
