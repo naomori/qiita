@@ -1,0 +1,29 @@
+{
+  "title": "Amazon S3にアップロードされた動画内の個人情報にモザイクをかける",
+  "tags": [
+    {
+      "name": "DeepLearning",
+      "versions": []
+    },
+    {
+      "name": "OpenImagesDataset",
+      "versions": []
+    },
+    {
+      "name": "AmazonRekognition",
+      "versions": []
+    },
+    {
+      "name": "AmazonRekognitionCustomLabels",
+      "versions": []
+    },
+    {
+      "name": "SageMakerGroundTruth",
+      "versions": []
+    }
+  ],
+  "coediting": false,
+  "gist": false,
+  "private": false,
+  "tweet": false
+}
