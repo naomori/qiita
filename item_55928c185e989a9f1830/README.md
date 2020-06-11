@@ -1,6 +1,4 @@
-# Amazon Rekognition で動画中の顔・ナンバープレートにモザイクをかける
-
-## はじめに
+# はじめに
 
 Machine Learning, Deep Learning でいろんなことができそう！と思っても、
 初めから自分のやりたいことが実現できるようなネットワークモデルや
@@ -35,7 +33,7 @@ Machine Learning, Deep Learning でいろんなことができそう！と思っ
 しないといけないことは、検知したい内容に合わせたトレーニング画像セットを
 アップロードすることだけです。
 
-## 全体像
+# 全体像
 
 今回の全体像を示します。
 
@@ -43,17 +41,20 @@ Machine Learning, Deep Learning でいろんなことができそう！と思っ
 
 次回から以下を１つ１つ説明する予定です。
 
-1. [Open Images Dataset V6 + ExtensionsからAmazon SageMaker Ground Truth形式のデータセットを作成する](https://qiita.com/naomori/items/88fa381b1348100977ff)
-2. [Amazon Rekognition Custom Labelsでカスタムモデルをトレーニングする](https://qiita.com/naomori/items/0f81db1022d15485441c)
-3. [AWS Lambda][]で[Amazon S3][]にアップロードされた動画を静止画にする
-    - T.B.D.
-4. [AWS Lambda][]で[DetectFaces][]オペレーションを使って顔を検出します
-    - T.B.D.
-5. [AWS Lambda][]で[DetectCustomLabels][]オペレーションを使ってナンバープレートを検出します
-    - T.B.D.
-6. [AWS Lambda][]で検出した領域のモザイク処理を施し、静止画を動画に変換する
-    - T.B.D.
+1. [Open Images Dataset V6 + ExtensionsからAmazon SageMaker Ground Truth形式のデータセットを作成する][]
+2. [Amazon Rekognition Custom Labelsでカスタムモデルをトレーニングする][]
+3. [Amazon S3にアップロードされた動画内の個人情報にモザイクをかける][]
 
+
+[Amazon Rekognition で動画中の顔・ナンバープレートにモザイクをかける]: https://qiita.com/naomori/items/55928c185e989a9f1830
+[Open Images Dataset V6 + ExtensionsからAmazon SageMaker Ground Truth形式のデータセットを作成する]: https://qiita.com/naomori/items/88fa381b1348100977ff
+[Amazon Rekognition Custom Labelsでカスタムモデルをトレーニングする]: https://qiita.com/naomori/items/0f81db1022d15485441c
+[Amazon S3にアップロードされた動画内の個人情報にモザイクをかける]: https://qiita.com/drafts/cea51f7a7565cfb2caef/edit
+
+[VoTTで作成したデータをCustom Labelsで利用可能なAmazon SageMaker Ground Truth形式に変換してみました]: https://dev.classmethod.jp/articles/rekognition-custom-labels-convert-vott/
+
+[PyCharm]: https://www.jetbrains.com/pycharm/
+[AWS Toolkit for PyCharm]: https://aws.amazon.com/jp/pycharm/
 
 [AWS Lambda]: https://aws.amazon.com/lambda/
 [Amazon S3]: https://aws.amazon.com/s3/
@@ -64,3 +65,13 @@ Machine Learning, Deep Learning でいろんなことができそう！と思っ
 [DetectCustomLabels]: https://docs.aws.amazon.com/ja_jp/rekognition/latest/dg/API_DetectCustomLabels.html
 [Open Images Dataset V6 + Extensions]: https://storage.googleapis.com/openimages/web/index.html
 [Amazon SageMaker Ground Truth]: https://aws.amazon.com/jp/sagemaker/groundtruth/
+[Open Images Dataset V6 Download]: https://storage.googleapis.com/openimages/web/download.html
+[AWS CLI のインストール]: https://docs.aws.amazon.com/ja_jp/cli/latest/userguide/cli-chap-install.html
+[Amazon SageMaker 出力データ]: https://docs.aws.amazon.com/ja_jp/sagemaker/latest/dg/sms-data-output.html
+[AWS CloudFormation]: https://aws.amazon.com/jp/cloudformation/
+[Limits in Amazon Rekognition Custom Labels]: https://docs.aws.amazon.com/rekognition/latest/customlabels-dg/limits.html
+[Amazon Rekognition endpoints and quotas]:https://docs.aws.amazon.com/general/latest/gr/rekognition_region.html#limits_rekognition
+[Create case]: https://console.aws.amazon.com/support/cases#/create?issueType=service-limit-increase
+
+[Amazon EC2]: https://aws.amazon.com/jp/ec2/
+[Amazon SageMaker]: https://aws.amazon.com/jp/sagemaker/
