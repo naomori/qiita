@@ -403,10 +403,7 @@ aws rekognition detect-faces \
   --region REGION
 ```
 
-以下の画像に対して、推論を実行してみます。
-
-**figure**
-
+以下の左のオリジナル画像に対して、推論を実行してみます。
 すると、以下のような json データを取得できます。
 
 ```JSON
@@ -426,9 +423,9 @@ aws rekognition detect-faces \
 }
 ```
 
-枠で囲ってみると良い感じに顔検知できてそうです。
+顔検知した領域を枠で囲ってみると良い感じに顔検知できてそうです。
 
-**figure**
+<img src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/244489/4ba59815-78c9-bab2-32c3-dc3a3082e32d.jpeg" width=50% height=50%><img src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/244489/4d4f800e-a1a2-a5eb-8ddf-2f441a019940.jpeg" width=50% height=50%>
 
 これと同じことを[AWS Lambda][]で実装します。
 
