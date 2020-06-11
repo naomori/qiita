@@ -280,9 +280,9 @@ def multi_upload_images_and_analyze(movie_path, input_filename):
         logger.info(f"start detecting all objects:{movie_path}")
         with ThreadPoolExecutor(max_workers=max_workers) as executor:
             finish = False
-            futures = []
             png_num = 0
             while cap.isOpened():
+                futures = []
                 for _ in range(max_workers):
                     ret, frame = cap.read()
                     if not ret or frame is None:
@@ -647,6 +647,7 @@ def multi_upload_images_and_analyze(movie_path, input_filename):
 
         with ThreadPoolExecutor(max_workers=max_workers) as executor:
             while cap.isOpened():
+                futures = []
                 for _ in range(max_workers):
                     ret, frame = cap.read()
                     future = executor.submit(upload_images_and_analyze,
@@ -670,14 +671,30 @@ def write_frames(mp4, futures):
                    future in concurrent.futures.as_completed(futures)]
     frames_list.sort()
     [mp4.write(frame[1]) for frame in frames_list]
-
+    del frames_list
+    gc.collect()
 ```
 
 以上により、ソースS3バケットに動画ファイル(.mov)を置いて、しばらく待つと、
 宛先S3バケットに顔・ナンバープレートにモザイク処理が施された動画ファイル(*.mp4)が
 保存されます。
 
-# 注意事項.1: 並列処理数について
+# 学んだこと.1: バウンディングボックスについて
+
+理由はよくわからないのですが、検知したオブジェクトのバウンディングボックスの値は
+画像領域から外れて、`Left`の位置がマイナス値になるものがありました。
+おそらくマイナス値だけでなく、画像の幅、高さを超えるものもあるのではないかと思いますので、
+検知したバウンディングボックス値には補正が必須だと思います。
+
+# 学んだこと.2: 使用メモリ量について
+
+今回の処理では、当初、設定メモリ量を最大の3008(MB)にしていましたが、
+不要なメモリを都度削除してGarbage Collector(`gc.collect()`)を動作させると、
+最大メモリ量を512(MB)に抑えることができました。
+画像イメージを大量にメモリ上に展開する必要がある場合は、
+最大メモリ使用量に配慮する必要があります。
+
+# 学んだこと.3: 並列処理数について
 
 今回並列処理を4としたのは、[DetectCustomLabels][]に一度に多くのリクエストを送ると
 `LimitExceededException`エラーが返ってくるためです(5以上にすると時々エラーになる)。
@@ -685,26 +702,27 @@ def write_frames(mp4, futures):
 [Create case][]を使うと制限を変更できるみたいなのですが、変更対象のAPIとして[DetectCustomLabels][]を
 選択できないため、今はまだ制限をへ変更できないみたいです。
 
-# 注意事項.2: 元の動画ファイルとLambdaでの処理時間について
+# 学んだこと.4: 元の動画ファイルとLambdaでの処理時間について
 
 顔・ナンバープレート検知する元の動画ファイルとしては、
 1080p@30fps の動画ファイルで録画時間が7-8(sec)くらいが、
 [AWS Lambda][]の動作リミットである900(sec)にギリギリ収まると思います。
-私は安全目に5(sec)程度の動画ファイル(1080p@30fps)でテストしましたが、440-460(sec)くらいでした。
+私は安全目に5(sec)程度の動画ファイル(1080p@30fps)でテストしましたが、400-480(sec)くらいでした。
 もちろん解像度によっても処理時間は異なると思いますし、
 フレームレートを落とせばその分だけ処理時間は確実に短くなるはずです。
+また、検知するクラス数なども処理時間に影響すると思います。
 
-# 注意事項.3: モザイク処理後の動画ファイルについて
+# 学んだこと.5: モザイク処理後の動画ファイルについて
 
 あと、注意点としては、元の映像をH.264でエンコードしていた場合でも、
 [AWS Lambda][]で静止画フレームから動画ファイルを構成するときに、
 H.264でエンコードしていないため、モザイク処理後の動画ファイル(.mp4)が
 かなり大きくなります。
 例えば、iPhoneXで撮影したH.264エンコードされた5(sec), 2.2MBの動画ファイル(.mov)は、
-本モザイク処理をすると、270MBになりました。
+本モザイク処理をして、静止画から動画ファイル(.mp4)を作成すると12MBになりました。
 [AWS Lambda][]ではなくH.264エンコードが利用できる環境で処理するのが良いように思います。
 
-# 注意事項.4: 料金について
+# 学んだこと.6: 料金について
 
 推論のためにモデルを動作させるのに必要な料金は US$4.00/hour です。
 また、5(sec)の動画ファイルにモザイク処理を施すのに必要な時間は大体7-8(min)です。
@@ -716,7 +734,7 @@ H.264でエンコードしていないため、モザイク処理後の動画フ
 # まとめ
 
 以上で、**Amazon Rekognition で動画中の顔・ナンバープレートにモザイクをかける**ことができました。
-注意事項でも書きましたが、やってみると動画のオブジェクト検知には、
+**学んだこと**でも書きましたが、やってみると動画のオブジェクト検知には、
 [AWS Lambda][], [Amazon Rekognition Custom Labels][]はあまり適していないと感じました。
 
 AWSのAIサービスは、とても使いやすくて簡単にやりたいことが実現できると思います。
@@ -799,6 +817,8 @@ def write_frames(mp4, futures):
                    future in concurrent.futures.as_completed(futures)]
     frames_list.sort()
     [mp4.write(frame[1]) for frame in frames_list]
+    del frames_list
+    gc.collect()
 
 
 def multi_upload_images_and_analyze(movie_path, input_filename):
@@ -818,9 +838,9 @@ def multi_upload_images_and_analyze(movie_path, input_filename):
         logger.info(f"start detecting all objects:{movie_path}")
         with ThreadPoolExecutor(max_workers=max_workers) as executor:
             finish = False
-            futures = []
             png_num = 0
             while cap.isOpened():
+                futures = []
                 for _ in range(max_workers):
                     ret, frame = cap.read()
                     if not ret or frame is None:
