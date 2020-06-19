@@ -1,0 +1,21 @@
+{
+  "title": "初めてのKubernetes - 1.環境構築",
+  "tags": [
+    {
+      "name": "RaspberryPi",
+      "versions": []
+    },
+    {
+      "name": "Docker",
+      "versions": []
+    },
+    {
+      "name": "kubernetes",
+      "versions": []
+    }
+  ],
+  "coediting": false,
+  "gist": false,
+  "private": false,
+  "tweet": false
+}
