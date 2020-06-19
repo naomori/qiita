@@ -17,7 +17,6 @@
 
 * [3日間クッキング【Kubernetes のラズペリーパイ包み　“サイバーエージェント風”】][]
 * [Raspberry PiでおうちKubernetes構築【物理編】][]
-* [Raspberry Pi 3 Model B][]
 
 ただ、[Raspberry Pi 3 Model B][] x 4 で環境構築しようとしているので、
 そこが少しだけ違う点です。
@@ -50,7 +49,8 @@
 購入したUSBケーブルは思ったより丈夫で固くて取り回しはあまり自由にはできません。
 ただ、ケーブルの断線の心配がないので安心です。
 スタッカブルケース2台で組むと持ち歩くのには辛いですが、
-自宅に置いておく分には、1台に詰め込まなくても良いので、簡単だと思います。
+自宅に置いておく分には、1台に詰め込まなくても良いので、
+環境構築としては比較的簡単にできる思います。
 
 ![k8s-front.jpeg](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/244489/b57e8b3d-f3e2-0661-d283-70fd3abd6410.jpeg)
 ![k8s-back.jpeg](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/244489/c1624556-6ffe-1ca8-2e3c-a5520ef2d2d0.jpeg)
