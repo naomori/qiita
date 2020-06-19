@@ -27,7 +27,7 @@ Machine Learning, Deep Learning でいろんなことができそう！と思っ
 
 ただし、ナンバープレートは、[Amazon Rekognition Image][]では検出できません。
 そのようなオペレーションは用意されていないからです。
-また、ナンバープレートを検出するためには、[Amazon Rekognition Custom Labels][]を使う必要があります。
+そこで、ナンバープレートを検出するために、[Amazon Rekognition Custom Labels][]を使います。
 [Amazon Rekognition Custom Labels][]は、その名前の通り、使う人専用(Custom)のモデルを
 専門知識なしに構築することができます。
 しないといけないことは、検知したい内容に合わせたトレーニング画像セットを

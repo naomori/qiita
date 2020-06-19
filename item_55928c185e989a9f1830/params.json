@@ -1,5 +1,5 @@
 {
-  "title": "Amazon Rekognition で顔・ナンバープレートにモザイクをかける",
+  "title": "Amazon Rekognition で動画中の顔・ナンバープレートにモザイクをかける",
   "tags": [
     {
       "name": "DeepLearning",
