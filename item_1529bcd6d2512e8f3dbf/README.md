@@ -30,7 +30,7 @@
 ですが、私は、[Raspberry Pi 3 Model B][] x 4 で構築しようとしているので、
 [Raspberry Pi 3 Model B][]用とネットワーク+USB用の2台のスタッカブルケースで構築します。
 
-** figure **
+![k8s-ingredients.jpeg](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/244489/59651651-863b-2236-c377-d4567bccacb2.jpeg)
 
 * [エレコム LANケーブル 0.15m 爪折れ防止コネクタ やわらか CAT6準拠 ブルー LD-GPY/BU015](https://www.amazon.co.jp/gp/product/B00G2PY0NU/ref=ppx_yo_dt_b_asin_title_o07_s00?ie=UTF8&psc=1) x 1
 * [エレコム LANケーブル 0.3m 爪折れ防止コネクタ やわらか CAT6準拠 ブルー LD-GPY/BU03](https://www.amazon.co.jp/gp/product/B00G2PY0VW/ref=ppx_yo_dt_b_asin_title_o07_s00?ie=UTF8&psc=1) x 4
@@ -46,9 +46,15 @@
 
 # 完成形
 
-参考記事の方々の手順とほとんど全く同じですので、構築手順は省略します。
+参考記事の方々の手順とほとんど全く同じですので、構築手順の詳細は省略します。
+購入したUSBケーブルは思ったより丈夫で固くて取り回しはあまり自由にはできません。
+ただ、ケーブルの断線の心配がないので安心です。
+スタッカブルケース2台で組むと持ち歩くのには辛いですが、
+自宅に置いておく分には、1台に詰め込まなくても良いので、簡単だと思います。
 
-** figure **
+![k8s-front.jpeg](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/244489/b57e8b3d-f3e2-0661-d283-70fd3abd6410.jpeg)
+![k8s-back.jpeg](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/244489/c1624556-6ffe-1ca8-2e3c-a5520ef2d2d0.jpeg)
+![k8s-up.jpeg](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/244489/0531546d-df56-d687-e493-2c8ccd039d52.jpeg)
 
 # まとめ
 
