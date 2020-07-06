@@ -1,26 +1,20 @@
 # はじめに
 
-それでは、[前回]()構築した Raspberry Pi 3 Model B にOS、[Kubernetes][]をインストールします。
-ただ、はじめに一言謝らないといけないことがあります。
-Raspberry Pi 3 Model B で[Kubernetes][]のコントロールプレーンノードを動かしてみたのですが、
-性能不足のためかうまく動きませんでした。
-ですので、Raspberry Pi 3 Model B x 4台をワーカーノードにして、
-Raspberry Pi 4 Model B(4GB) x 1台をコントロールプレーンノードにしました。
+それでは、[前回]()構築した Raspberry Pi 3 Model B にOS、[Kubernetes][]をインストールします。ただ、はじめに一言謝らないといけないことがあります。
+
+Raspberry Pi 3 Model B で[Kubernetes][]のコントロールプレーンノードを動かしてみたのですが、性能不足のためかうまく動きませんでした。
+ですので、Raspberry Pi 3 Model B x 4台をワーカーノードにして、Raspberry Pi 4 Model B(4GB) x 1台をコントロールプレーンノードにしました。
 
 こんな感じで1台追加しました。
 このRaspberry Pi 4 Model Bをコントロールプレーンノードにすることにします。
 
-**写真**
+![raspi4-master.jpeg](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/244489/c0386c67-bd8c-879d-ea9e-c04e80f3100a.jpeg)
 
 # OSのインストール
 
-Raspberry Pi だと[Raspberry Pi OS][](以前はRaspbian)を最初に考えますが、
-[kubeadmのインストール][]を見てみると、[Raspberry Pi OS][]はサポートされていません。
-したがって、今回はUbuntu 20.04-LTS(64bit)をインストールすることにします。
+Raspberry Pi だと[Raspberry Pi OS][](以前はRaspbian)を最初に考えますが、[kubeadmのインストール][]を見てみると、[Raspberry Pi OS][]はサポートされていません。したがって、今回はUbuntu 20.04-LTS(64bit)をインストールすることにします。
 
-実は、[Raspberry Pi OS][]でも[Kubernetes][]をインストールできますし、
-[Kubernetes][]も動作するのですが、トラブルに遭遇したときに
-同じような経験をした人が少なくて、面倒なことになりそうなので、Ubuntuにします。
+実は、[Raspberry Pi OS][]でも[Kubernetes][]をインストールできますし、[Kubernetes][]も動作するのですが、トラブルに遭遇したときに同じような経験をした人が少なくて、面倒なことになりそうなので、Ubuntuにします。
 
 [Install Ubuntu Server on a Raspberry Pi 2,3 or 4][]にRaspberry Piのイメージがあるので、
 [Ubuntu 20.04 LTS(64-bit) for Raspbeery Pi 3](https://ubuntu.com/download/raspberry-pi/thank-you?version=20.04&architecture=arm64+raspi)
@@ -36,9 +30,7 @@ ubuntu-20.04-preinstalled-server-arm64+raspi.img.xz (1/1)
   100 %     667.0 MiB / 3,054.4 MiB = 0.218    92 MiB/s       0:33
 ```
 
-OSイメージの書き込みには、[こちら](https://ubuntu.com/tutorials/how-to-install-ubuntu-on-your-raspberry-pi#2-prepare-the-sd-card)
-にもある通りに、Raspberry Pi imager というツールがあるそうですが、
-私のノートPCはUbuntuなので、`dd`コマンドでも書き込めます。
+OSイメージの書き込みには、[こちら](https://ubuntu.com/tutorials/how-to-install-ubuntu-on-your-raspberry-pi#2-prepare-the-sd-card)にもある通りに、Raspberry Pi imager というツールがあるそうですが、私のノートPCはUbuntuなので、`dd`コマンドでも書き込めます。
 
 ```bash
 ~/Downloads ❯❯❯ sudo dd if=ubuntu-20.04-preinstalled-server-arm64+raspi.img of=/dev/mmcblk0 status=progress
@@ -52,13 +44,10 @@ OSイメージの書き込みには、[こちら](https://ubuntu.com/tutorials/h
 
 ## 設定
 
-ここから設定を行っていくわけですが、ディスプレイ+キーボード+マウスを5台のRaspberry Piに接続して作業するのは、少々面倒です。
-したがって、それら周辺機器を接続せずに設定していきます。
-実は、その方法は[How to install Ubuntu on your Raspberry Pi][]に記載されているので、簡単です。
-また、[こちら](https://rabbit-note.com/2020/06/06/raspberry-pi-ubuntu-headless-install/)も参考になります。
+ここから設定を行っていくわけですが、ディスプレイ+キーボード+マウスを5台のRaspberry Piに接続して作業するのは、少々面倒です。したがって、それら周辺機器を接続せずに設定していきます。
+実は、その方法は[How to install Ubuntu on your Raspberry Pi][]に記載されているので、簡単です。また、[こちら](https://rabbit-note.com/2020/06/06/raspberry-pi-ubuntu-headless-install/)も参考になります。
 
-OSイメージを書き込んだmicroSDカードを抜き差しすると、
-以下のパーティションが自動でマウントされます。
+OSイメージを書き込んだmicroSDカードを抜き差しすると、以下のパーティションが自動でマウントされます。
 
 ```bash
 ~/Downloads ❯❯❯ df -k
@@ -117,8 +106,7 @@ chpasswd:
 +net.ifnames=0 dwc_otg.lpm_enable=0 console=serial0,115200 console=tty1 root=LABEL=writable rootfstype=ext4 elevator=deadline cgroup_enable=cpuset cgroup_enable=memory cgroup_memory=1 rootwait fixrtc
 ```
 
-以上の設定ができたら、microSDカードをアンマウントして、
-Raspberry Pi に挿入します。
+以上の設定ができたら、microSDカードをアンマウントして、Raspberry Pi に挿入します。
 
 ```bash
 ~ ❯❯❯ umount /media/naomori/system-boot
@@ -129,9 +117,7 @@ Raspberry Pi に挿入します。
 
 ## ssh でログイン
 
-Raspberry Piの電源を入れたらsshでログイン(user:ubuntu,pass:ubuntu)します。
-あと、SSHの秘密鍵のパスフレーズを無しにした公開鍵を
-K8s Cluster すべてにscpして、ログインしやすくしておきます。
+Raspberry Piの電源を入れたらsshでログイン(user:ubuntu,pass:ubuntu)します。あと、SSHの秘密鍵のパスフレーズを無しにした公開鍵をK8s Cluster すべてにscpして、ログインしやすくしておきます。
 
 ```bash
 ~/Downloads ❯❯❯ ssh ubuntu@192.168.0.10
@@ -149,8 +135,7 @@ ubuntu@k8s-node0:~$ rm -f id_rsa.pub
 ubuntu@k8s-node0:~$ sudo apt update && sudo apt upgrade -y
 ```
 
-あと、簡単にそれぞれのノードにアクセスできるように、
-`/etc/hosts`にエントリを追加します。
+あと、簡単にそれぞれのノードにアクセスできるように、`/etc/hosts`にエントリを追加します。
 
 
 ```bash
@@ -167,8 +152,7 @@ ubuntu@k8s-node0:~$ sudo vim /etc/hosts
 
 # Dockerのインストール
 
-[Install Docker Engine on Ubuntu](https://docs.docker.com/engine/install/ubuntu/)を
-参考にDockerをインストールします。
+[Install Docker Engine on Ubuntu](https://docs.docker.com/engine/install/ubuntu/)を参考にDockerをインストールします。
 
 ```bash
 ubuntu@k8s-node0:~$ sudo apt install -y \
@@ -200,8 +184,7 @@ ubuntu@k8s-node0:~$ sudo add-apt-repository \
 ubuntu@k8s-node0:~$ sudo apt update
 ```
 
-[ここ](https://kubernetes.io/docs/setup/production-environment/container-runtimes/)にしたがって、
-Dockerのバージョンを指定してインストールします。
+[ここ](https://kubernetes.io/docs/setup/production-environment/container-runtimes/)にしたがって、Dockerのバージョンを指定してインストールします。
 
 ```bash
 ubuntu@k8s-node0:~$ sudo apt install -y \
@@ -210,8 +193,7 @@ ubuntu@k8s-node0:~$ sudo apt install -y \
   docker-ce-cli=5:19.03.11~3-0~ubuntu-$(lsb_release -cs)
 ```
 
-[kubernetes][]とのバージョン依存の問題があるため、
-[docker-ce][]のバージョンを現在のバージョンで固定化します。
+[kubernetes][]とのバージョン依存の問題があるため、[docker-ce][]のバージョンを現在のバージョンで固定化します。
 
 ```bash
 ubuntu@k8s-node0:~$ sudo apt-mark hold containerd.io docker-ce docker-ce-cli
@@ -220,7 +202,7 @@ docker-ce set on hold.
 docker-ce-cli set on hold.
 ```
 
-Dockerの設定を」変更します。
+Dockerの設定を変更します。
 
 ```bash
 ubuntu@k8s-node0:~$ sudo vim /etc/docker/daemon.json
@@ -296,8 +278,7 @@ kubectl set on hold.
 
 ## swap 無効化
 
-`kubelet`が正常に動作するためには、**swap**は必ずオフである必要があるとのことなので、
-**swap**を無効化しておきます。
+`kubelet`が正常に動作するためには、**swap**は必ずオフである必要があるとのことなので、**swap**を無効化しておきます。
 
 ```bash
 ubuntu@k8s-node0:~$ sudo swapoff -a
@@ -307,8 +288,7 @@ ubuntu@k8s-node0:~$ sudo swapoff -a
 
 # kubeadmを使用したシングルコントロールプレーンクラスターの作成
 
-[kubeadmを使用したシングルコントロールプレーンクラスターの作成][]を参考に、
-Kubernetesクラスタを作成していきます。ネットワークには、[kube-router][]を使います。
+[kubeadmを使用したシングルコントロールプレーンクラスターの作成][]を参考に、Kubernetesクラスタを作成していきます。ネットワークには、[kube-router][]を使います。
 
 ## コントロールプレーンノードの初期化
 
@@ -347,9 +327,7 @@ ubuntu@k8s-master:~$ sudo chown $(id -u):$(id -g) $HOME/.kube/config
 
 ## Podネットワークアドオンのインストール
 
-Podネットワークとして、[kube-router][]を使うことにします。
-[Deploying kube-router with kubeadm](https://github.com/cloudnativelabs/kube-router/blob/master/docs/kubeadm.md)を
-参考にします。
+Podネットワークとして、[kube-router][]を使うことにします。[Deploying kube-router with kubeadm](https://github.com/cloudnativelabs/kube-router/blob/master/docs/kubeadm.md)を参考にします。
 
 ```bash
 ubuntu@k8s-master:~$ KUBECONFIG=$HOME/.kube/config kubectl apply -f https://raw.githubusercontent.com/cloudnativelabs/kube-router/master/daemonset/kubeadm-kuberouter.yaml
@@ -446,30 +424,25 @@ To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
 
 # 別ノード(Ubuntu 20.04 LTS)から kubectl で制御します
 
-別のノード(Ubuntu 20.04 LTS)から`kubectl`を実行することもできます。
-[Install and Set Up kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)を
-参考に`kubectl`をインストールします。
+別のノード(Ubuntu 20.04 LTS)から`kubectl`を実行することもできます。[Install and Set Up kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)を参考に`kubectl`をインストールします。
 
 ```zsh
 ~ ❯❯❯  sudo snap install kubectl --classic
 ```
 
-masterノードで出力をコピーして、
+masterノードで出力をコピーします。
+
 ```bash
 ubuntu@k8s-master:~$ kubectl config view --raw
 ```
 
 別ノードの`~/.kube/config`にペーストします。
-```zsh
+
+```bash
 ~ ❯❯❯  vim ~/.kube/config
 ```
 
-これで別ノードからでも`kubectl`を実行できます。
-また kubectl completion でコマンドの補完ができます。
-
-# 参考
-
-[kubeadm でマスタ１台のクラスタを構築（参考訳：v1.11)](https://qiita.com/zembutsu/items/399774c5071050f07975)
+これで別ノードからでも`kubectl`を実行できます。また kubectl completion でコマンドの補完ができます。
 
 # まとめ
 
@@ -477,10 +450,7 @@ ubuntu@k8s-master:~$ kubectl config view --raw
 Raspberry Pi 4 Model B x 1 をコントロールプレーンノードに、
 Raspberry Pi 3 Model B x 4 をノードにした Kubernetes クラスタを構築できました。 
 
-次回からは、[15Stepで習得 Dockerから入るKubernetes コンテナ開発からK8s本番運用まで](http://www.ric.co.jp/book/contents/book_1161.html)で
-[Kubernetes][]の勉強をしていきたいと思います。まだ全てを読んだわけではないですが、
-アーキテクチャやコンポーネントの説明が理解しやすくて、とても良い本だと思います。
-
+次回からは、[15Stepで習得 Dockerから入るKubernetes コンテナ開発からK8s本番運用まで](http://www.ric.co.jp/book/contents/book_1161.html)で[Kubernetes][]の勉強をしていきたいと思います。まだ全てを読んだわけではないですが、アーキテクチャやコンポーネントの説明が理解しやすくて、とても良い本だと思います。
 
 [Kubernetes]: https://kubernetes.io/
 [docker-ce]: https://docs.docker.com/install/linux/docker-ce/ubuntu/
