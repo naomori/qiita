@@ -150,6 +150,20 @@ ubuntu@k8s-node0:~$ sudo vim /etc/hosts
 192.168.0.13 k8s-node3
 ```
 
+時間の設定もしておきます。
+
+```bash
+ubuntu@k8s-node0:~$ sudo timedatectl set-timezone Asia/Tokyo
+ubuntu@k8s-node0:~$ timedatectl
+               Local time: Mon 2020-07-06 22:13:48 JST
+           Universal time: Mon 2020-07-06 13:13:48 UTC
+                 RTC time: n/a
+                Time zone: Asia/Tokyo (JST, +0900)
+System clock synchronized: yes
+              NTP service: active
+          RTC in local TZ: no
+```
+
 # Dockerのインストール
 
 [Install Docker Engine on Ubuntu](https://docs.docker.com/engine/install/ubuntu/)を参考にDockerをインストールします。
@@ -451,6 +465,12 @@ Raspberry Pi 4 Model B x 1 をコントロールプレーンノードに、
 Raspberry Pi 3 Model B x 4 をノードにした Kubernetes クラスタを構築できました。 
 
 次回からは、[15Stepで習得 Dockerから入るKubernetes コンテナ開発からK8s本番運用まで](http://www.ric.co.jp/book/contents/book_1161.html)で[Kubernetes][]の勉強をしていきたいと思います。まだ全てを読んだわけではないですが、アーキテクチャやコンポーネントの説明が理解しやすくて、とても良い本だと思います。
+
+# "初めてのKubernetes"リスト
+
+1. [初めてのKubernetes - 1.環境構築](https://qiita.com/naomori/items/1529bcd6d2512e8f3dbf)
+2. [初めてのKubernetes - 2.Kubernetesのインストール](https://qiita.com/naomori/items/a74f3217c417cf80f9af)
+
 
 [Kubernetes]: https://kubernetes.io/
 [docker-ce]: https://docs.docker.com/install/linux/docker-ce/ubuntu/
