@@ -1,0 +1,25 @@
+{
+  "title": "初めてのKubernetes - 2.Kubernetesのインストール",
+  "tags": [
+    {
+      "name": "RaspberryPi",
+      "versions": []
+    },
+    {
+      "name": "Ubuntu",
+      "versions": []
+    },
+    {
+      "name": "Docker",
+      "versions": []
+    },
+    {
+      "name": "kubernetes",
+      "versions": []
+    }
+  ],
+  "coediting": false,
+  "gist": false,
+  "private": false,
+  "tweet": false
+}
