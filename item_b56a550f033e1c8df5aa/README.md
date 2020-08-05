@@ -35,6 +35,8 @@ GUI環境を構築し常時稼働させ、[Google Colab][]に接続する専用�
 
 # 0.事前準備
 
+![google-colab-ssh-0-Preparation.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/244489/ac8a1cc0-b0e2-bc09-a49b-ee603d21da42.png)
+
 ## 0-1. Ubuntu Server on Raspberry Pi 4 Model B
 
 Raspberry Pi だと[Raspberry Pi OS][](以前はRaspbian)を最初に考えますが、
@@ -61,11 +63,9 @@ nat descriptor masquerade static 1000 2 <自宅サーバ-ローカルIPアドレ
 こうすることで、登録したドメイン名で、外部から自宅ルータにアクセスできるようになります。
 もちろん、他のドメインサービスでも構いません。
 
-**0-image**
-
 # 1. Google Colaboratory のインスタンスを生成します
 
-**1-image**
+![google-colab-ssh-1-SSH_Server.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/244489/c97150fd-d4e7-ffc3-42f1-d05d2016044d.png)
 
 ## 1-1. Raspberry Pi に接続してデスクトップ共有します
 
@@ -153,7 +153,7 @@ print(f'Root password: {password}')
 
 # 3. 自宅のラズパイからGoogle ColabにSSHトンネルを張ります
 
-**2-image**
+![google-colab-ssh-2-SSH_Client.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/244489/94ec4a2a-c884-c0cc-d1a4-4a3a7e473e78.png)
 
 ブラウザで以下のスクリプトを実行します。
 
@@ -198,9 +198,9 @@ setsid ssh -p 10022 -oStrictHostKeyChecking=no -fNR 20022:localhost:22 ubuntu@ho
 
 # 4. SSHでGoogle Colabにログインします
 
-**3-image**
+![google-colab-ssh-3-SSH_Access.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/244489/1e6491a2-2106-0962-58cb-85f7b79ee34a.png)
 
-手元のLaptopからラズパイにSSHログインするか、Remmina上で端末エミュレータを起動するかします。
+手元のLaptopからラズパイにSSHログインするか、[Remmina][]上で端末エミュレータを起動するかします。
 その端末で[tmux][]を起動し、ラズパイのトンネル入り口ポートを通って、[Google Colab][]にアクセスします。
 
 ```bash
@@ -218,8 +218,8 @@ ubuntu@colab:~$ ssh -p <トンネル入り口のポート番号> root@localhost
 ブラウザでポチポチするのが面倒だったり、ブラウザでファイルを編集するのが嫌だという人には、
 とても便利な環境が構築できたのではないかと思います。
 
-ちなみに、ラズパイのブラウザですが、初回のReloadボタンを押した後は、手元のLaptopのRemminaは落としても問題ありません。
-Remminaを落としても、ラズパイ上のブラウザはReloadし続けてくれるので、[Google Colab][]インスタンスは維持されます。
+ちなみに、ラズパイのブラウザですが、初回のReloadボタンを押した後は、手元のLaptopの[Remmina][]は落としても問題ありません。
+[Remmina][]を落としても、ラズパイ上のブラウザはReloadし続けてくれるので、[Google Colab][]インスタンスは維持されます。
 また、ラズパイ上の端末エミュレータで起動した[tmux][]は`detach`してしまえば、
 手元のLaptopからのSSH接続を切っても、ラズパイ上の端末エミュレータを落としても大丈夫です。
 再度、ラズパイに接続し直す、あるいは、ラズパイ上の端末エミュレータを起動して、
@@ -227,30 +227,11 @@ Remminaを落としても、ラズパイ上のブラウザはReloadし続けて�
 
 # References
 
-* [tmux][]
-* [Google Colab][]
-* [Colab Pro][]
-* [Tesla P100][]
-* [Ubuntu 20.04 LTS(64-bit) for Raspbeery Pi][]
-* [docker-ce][]
-* [Raspberry Pi 3 Model B][]
-* [Raspberry Pi OS][]
-* [Install Ubuntu Server on a Raspberry Pi 2,3 or 4][]
-* [How to install Ubuntu on your Raspberry Pi][]
-* [Lubuntu][]
-* [remmina][]
 * [Super Auto Refresh Plus][]
 * [Google Colaboratoryにsshログインをしてお手軽GPU実験環境を作ってみた][]
 * [Colabをshellから使う][]
 * [SSHトンネルの掘り方][]
 * [expectやsshpassを使わずにシェルでSSHパスワード認証を自動化する][]
-* [SETSID][]
-* [Yamaha RTX830][]
-* [Remmina][]
-* [github][]
-* [get_ipython][]
-* [interactiveshell][]
-
 
 
 [tmux]: https://github.com/tmux/tmux/wiki
