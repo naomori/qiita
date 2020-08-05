@@ -1,0 +1,29 @@
+{
+  "title": "自宅サーバ(ラズパイ)を使ってGoogle Colabにsshログインする",
+  "tags": [
+    {
+      "name": "DeepLearning",
+      "versions": []
+    },
+    {
+      "name": "MachineLearning",
+      "versions": []
+    },
+    {
+      "name": "SSH",
+      "versions": []
+    },
+    {
+      "name": "colaboratory",
+      "versions": []
+    },
+    {
+      "name": "GoogleColaboratory",
+      "versions": []
+    }
+  ],
+  "coediting": false,
+  "gist": false,
+  "private": false,
+  "tweet": false
+}
