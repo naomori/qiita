@@ -180,7 +180,7 @@ AllowedIPs = 10.0.0.1/32,192.168.0.0/24
 
 # 5. サーバのグローバルIP(FQDNでも良い)と
 # ListenPort(サーバ側で1194と決めたやつ)を設定します。
-Endpoint = <server global ip address>.net:1194
+Endpoint = <server global ip address>:1194
 ```
 
 # 5. Wireguard(ラズパイ)の自動起動
