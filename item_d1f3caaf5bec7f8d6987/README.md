@@ -14,8 +14,13 @@
 宅外から自宅内にVPNを張れるようにはしていますが、このPCを常時起動させておくのは電気代がもったいないです。
 この"もったいない"x2の状況を乗り越えるために、Wake On LANを活用します。
 
-具体的には、自宅で常時起動しているRaspberry Piに対して、宅外からVPNを通ってログインします。
-そのRaspberry PiからWake On LANで自宅のDesktop PCを起こしてあげます。
+具体的には、自宅で常時起動しているラズパイに、宅外からVPNを通ってログインします。
+
+宅外から自宅のラズパイにVPN接続する方法については、こちらをご覧ください。
+
+* [自宅の外から自宅のラズパイにVPN(WireGuard)でアクセスしよう](https://qiita.com/naomori/items/1ee1a314cbdd3010f3ee)
+
+そのラズパイからWake On LANで自宅のデスクトップPCを起こしてあげます。
 
 # Wake On LAN のお勉強
 
@@ -70,7 +75,7 @@ pi@raspi4:~ $ apt install wakeonlan
 
 # Wake On LAN の使用
 
-対象の Desktop PC の Mac Address を事前に調べておき、コマンドの引数に渡すだけです。
+対象の デスクトップPC の Mac Address を事前に調べておき、コマンドの引数に渡すだけです。
 
 ```bash
 pi@raspi4:~ $ wakeonlan <対象のPCのMACアドレス>
