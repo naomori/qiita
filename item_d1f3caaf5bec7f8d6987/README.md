@@ -15,10 +15,9 @@
 この"もったいない"x2の状況を乗り越えるために、Wake On LANを活用します。
 
 具体的には、自宅で常時起動しているラズパイに、宅外からVPNを通ってログインします。
-
 宅外から自宅のラズパイにVPN接続する方法については、こちらをご覧ください。
 
-* [自宅の外から自宅のラズパイにVPN(WireGuard)でアクセスしよう](https://qiita.com/naomori/items/1ee1a314cbdd3010f3ee)
+* [自宅の外から自宅のラズパイにVPN(WireGuard)でアクセスしよう][]
 
 そのラズパイからWake On LANで自宅のデスクトップPCを起こしてあげます。
 
@@ -92,6 +91,8 @@ pi@raspi4:~ $ wakeonlan <対象のPCのMACアドレス>
 
 * [Tech TIPS： Wake On LANでコンピュータを起動する][]
 * [Wake On LAN - ROG - Asus][]
+* [自宅の外から自宅のラズパイにVPN(WireGuard)でアクセスしよう][]
 
 [Tech TIPS： Wake On LANでコンピュータを起動する]: https://www.atmarkit.co.jp/ait/articles/0602/25/news014.html
 [Wake On LAN - ROG - Asus]: https://rog.asus.com/forum/showthread.php?93081-HERO-Wake-on-LAN
+[自宅の外から自宅のラズパイにVPN(WireGuard)でアクセスしよう]: https://qiita.com/naomori/items/1ee1a314cbdd3010f3ee
