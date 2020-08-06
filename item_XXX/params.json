@@ -1,0 +1,29 @@
+{
+  "title": "自宅の外から自宅のラズパイにVPN(WireGuard)でアクセスしよう",
+  "tags": [
+    {
+      "name": "VPN",
+      "versions": []
+    },
+    {
+      "name": "Wireguard",
+      "versions": []
+    },
+    {
+      "name": "Linux",
+      "versions": []
+    },
+    {
+      "name": "Ubuntu",
+      "versions": []
+    },
+    {
+      "name": "RaspberryPi",
+      "versions": []
+    }
+  ],
+  "coediting": false,
+  "gist": false,
+  "private": false,
+  "tweet": false
+}
