@@ -40,11 +40,12 @@ GUI環境を構築し常時稼働させ、[Google Colab][]に接続する専用�
 ## 0-1. Ubuntu Server on Raspberry Pi 4 Model B
 
 Raspberry Pi だと[Raspberry Pi OS][](以前はRaspbian)を最初に考えますが、
-今回はUbuntu 20.04-LTS(64bit)をインストールすることにします。特に理由はありません。
+今回はUbuntu 20.04-LTS(64bit)をインストールすることにします。
 [Install Ubuntu Server on a Raspberry Pi 2,3 or 4][]にRaspberry Piのイメージがあるので、
 これをインストールします。
 
-このインストール方法や設定については、この記事では省略します（別途記事を書きます）。
+Ubuntu 20.04-LTS(64bit)のインストール方法や設定については、以下の記事をご参照ください。
+* [ラズパイに Ubuntu 20.04-LTS(64bit) をインストールする](https://qiita.com/naomori/items/e45d5dc77ecda860f41a)
 
 ## 0-2. 自宅ルータに外部からのsshアクセス用に穴を通す
 
@@ -232,6 +233,7 @@ ubuntu@colab:~$ ssh -p <トンネル入り口のポート番号> root@localhost
 * [Colabをshellから使う][]
 * [SSHトンネルの掘り方][]
 * [expectやsshpassを使わずにシェルでSSHパスワード認証を自動化する][]
+* [ラズパイに Ubuntu 20.04-LTS(64bit) をインストールする](https://qiita.com/naomori/items/e45d5dc77ecda860f41a)
 
 
 [tmux]: https://github.com/tmux/tmux/wiki
