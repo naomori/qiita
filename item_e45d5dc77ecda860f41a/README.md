@@ -23,8 +23,8 @@ ubuntu-20.04-preinstalled-server-arm64+raspi.img.xz (1/1)
   100 %     667.0 MiB / 3,054.4 MiB = 0.218    92 MiB/s       0:33
 ```
 
-OSイメージの書き込みには、[こちら](https://ubuntu.com/tutorials/how-to-install-ubuntu-on-your-raspberry-pi#2-prepare-the-sd-card)にもある通りに、
-Raspberry Pi imager というツールがあるそうですが、私のノートPCはUbuntuなので、`dd`コマンドで書き込みます。
+OSイメージの書き込みには、[こちら](https://ubuntu.com/tutorials/how-to-install-ubuntu-on-your-raspberry-pi#2-prepare-the-sd-card)にもある通りに、Raspberry Pi imager というツールがあるそうですが、
+私のノートPCはUbuntuなので、`dd`コマンドで書き込みます。書き込みツールは何でも構いません。
 
 ```bash
 ~/Downloads ❯❯❯ sudo dd if=ubuntu-20.04-preinstalled-server-arm64+raspi.img of=/dev/mmcblk0 status=progress
@@ -49,7 +49,7 @@ OSイメージを書き込んだmicroSDカードを抜き差しすると、以�
 /dev/mmcblk0p1    258095     62017    196079  25% /media/$USER/system-boot
 ```
 
-IPアドレスの設定をします。
+IPアドレス、DNSサーバの設定をします。
 
 ```bash
 ~/Downloads ❯❯❯ cd /media/$USER/system-boot
@@ -104,7 +104,7 @@ ubuntu@colab:~$ cat id_rsa.pub >> .ssh/authorized_keys
 ubuntu@colab:~$ rm -f id_rsa.pub
 ```
 
-まずはパッケージを更新しておきます。
+接続したら、まずはパッケージを更新しておきます。
 
 ```bash
 ubuntu@colab:~$ sudo apt update && sudo apt upgrade -y
@@ -172,8 +172,8 @@ ubuntu@colab:~$ sudo apt install -y chromium-browser
 # まとめ
 
 以上で、ラズパイにUbuntuをインストールし、基本的なGUI環境を構築できました。
-私の場合、[Google Colab][]とのセッション維持のためにGUI環境やブラウザをインストールしたラズパイもありますし、
-[kubernetes][]向けにGUIなしのラズパイもあります。
+[Google Colab][]とのセッション維持のためにGUI環境やブラウザをインストールしたラズパイを使えますし、
+[kubernetes][]の環境をローカルで試してみたい場合にはGUIなしのラズパイも使えます。
 用途に応じて、GUIの有無を自由にできるのも便利です。
 
 # References
