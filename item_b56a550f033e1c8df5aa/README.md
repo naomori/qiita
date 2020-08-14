@@ -13,6 +13,10 @@ Deep LearningのTrainingに最適なんじゃないかと思ったからです�
 そこで、ブラウザ(Google Chrome/Chromium)のアドオン([Super Auto Refresh Plus][])を使って、
 自動でリロードさせるようにします。こうすることで、インスタンスがリセットされなくなります。
 
+* **2020/08/08 追記**
+    - ラズパイのWebブラウザとして Chromium を使っていましたが、嘘みたいにメモリを食って落ちたりします...
+    - firefox を利用することにしました。アドオンは [Tab Reloader](https://addons.mozilla.org/ja/firefox/addon/tabs-reloader/) を使っています。
+
 ただし、ラップトップやデスクトップPCを一日中稼働させておかないといけないというのは、
 電気代面でも、他の作業がしたくなった場合でも、とても不便です。
 
@@ -84,8 +88,8 @@ Windows や Mac の Remote Desktop や VNC でも出来るはずです。
 
 ## 1-2. Raspberry Pi のブラウザで Google Colab にアクセスします
 
-`Internet -> Chromium Web Browser`でブラウザを開き、Google Colab にアクセスします。
-(ターミナルで`chromium-browser`コマンドを実行しても良いです)
+`Internet -> Firefox`でブラウザを開き、Google Colab にアクセスします。
+(ターミナルで`firefox`コマンドを実行しても良いです)
 `Runtime -> Change runtime type` で以下のように設定します。
 
 - Hardware accelerator: **GPU**
@@ -93,7 +97,7 @@ Windows や Mac の Remote Desktop や VNC でも出来るはずです。
 
 これで、[Tesla P100][]と25.0GBのメモリを持つインスタンスが生成されます。
 
-そして、ブラウザのアドオン[Super Auto Refresh Plus][]を有効化します。
+そして、ブラウザのリロード用アドオンを有効化します。
 最初のReloadタイミングで、ポップアップが上がってくるのですが、
 これは手動でクリックする必要があります。
 初回以降のReloadタイミングはクリックする必要がありません。
