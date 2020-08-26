@@ -166,9 +166,9 @@ docker cp ubuntu:/root/linux-libc-dev_5.4.44-mt2patch-1_amd64.deb .
 ```
 
 ```bash
-sudo apt install ./linux-headers-5.4.44-mt2patch_5.4.44-mt2patch-1_amd64.deb .
-sudo apt install ./linux-image-5.4.44-mt2patch_5.4.44-mt2patch-1_amd64.deb .
-sudo apt install ./linux-libc-dev_5.4.44-mt2patch-1_amd64.deb .
+sudo apt install ./linux-headers-5.4.44-mt2patch_5.4.44-mt2patch-1_amd64.deb
+sudo apt install ./linux-image-5.4.44-mt2patch_5.4.44-mt2patch-1_amd64.deb
+sudo apt install ./linux-libc-dev_5.4.44-mt2patch-1_amd64.deb
 ```
 
 完了です。これから、カーソルが固まらないと良いな。
