@@ -70,6 +70,25 @@ git checkout -b focal+mt2patch Ubuntu-5.4.0-42.46
 
 ```bash
 apt install -y vim
+```
+
+まず、Magic Trackpad 2 のデバイスIDを調べます。
+```bash
+vim drivers/hid/hid-ids.h
+```
+```C
+#define USB_VENDOR_ID_APPLE             0x05ac
+#define BT_VENDOR_ID_APPLE              0x004c
+#define USB_DEVICE_ID_APPLE_MIGHTYMOUSE 0x0304
+#define USB_DEVICE_ID_APPLE_MAGICMOUSE  0x030d
+#define USB_DEVICE_ID_APPLE_MAGICTRACKPAD       0x030e
+#define USB_DEVICE_ID_APPLE_MAGICTRACKPAD2      0x0265
+```
+
+`USB_DEVICE_ID_APPLE_MAGICTRACKPAD2`だけ、
+電池消費を抑える機能をOFFにするようにコードを修正します。
+
+```bash
 vim drivers/hid/hid-input.c
 ```
 ```bash
@@ -85,7 +104,7 @@ index dea9cc65bf80..194231ffabee 100644
                 USB_DEVICE_ID_APPLE_ALU_WIRELESS_ANSI),
           HID_BATTERY_QUIRK_PERCENT | HID_BATTERY_QUIRK_FEATURE },
 +       { HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_APPLE,
-+               USB_DEVICE_ID_APPLE_MAGICMOUSE),
++               USB_DEVICE_ID_APPLE_MAGICTRACKPAD2),
 +         HID_BATTERY_QUIRK_IGNORE },
         { HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_ELECOM,
                 USB_DEVICE_ID_ELECOM_BM084),
