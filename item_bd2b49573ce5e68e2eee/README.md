@@ -12,6 +12,8 @@ Magic Trackpad 2 のバッテリー容量が減少してくると、
 そこで、この方の対応のように、Magic Trackpad 2 だけを対象として、
 電池消費を抑える機能をOFFにするパッチをカーネルに当てて、対応しようと思います。
 
+**以下の対応ですが、どうもまだ発症するようです...**
+
 # 1.Ubuntu Kernel ビルド用のDockerコンテナを用意する
 
 こちらが参考になります。
@@ -73,10 +75,12 @@ apt install -y vim
 ```
 
 まず、Magic Trackpad 2 のデバイスIDを調べます。
+
 ```bash
 vim drivers/hid/hid-ids.h
 ```
-```C
+
+```c
 #define USB_VENDOR_ID_APPLE             0x05ac
 #define BT_VENDOR_ID_APPLE              0x004c
 #define USB_DEVICE_ID_APPLE_MIGHTYMOUSE 0x0304
@@ -85,26 +89,29 @@ vim drivers/hid/hid-ids.h
 #define USB_DEVICE_ID_APPLE_MAGICTRACKPAD2      0x0265
 ```
 
-`USB_DEVICE_ID_APPLE_MAGICTRACKPAD2`だけ、
+`USB_DEVICE_ID_APPLE_{MAGICMOUSE,MAGICTRACKPAD,MAGICTRACKPAD2}`を、
 電池消費を抑える機能をOFFにするようにコードを修正します。
 
 ```bash
 vim drivers/hid/hid-input.c
 ```
+
 ```bash
 git diff
 ```
+
 ```diff
-diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
-index dea9cc65bf80..194231ffabee 100644
---- a/drivers/hid/hid-input.c
-+++ b/drivers/hid/hid-input.c
-@@ -310,6 +310,9 @@ static const struct hid_device_id hid_battery_quirks[] = {
+--- hid-input.c.orig    2020-09-01 09:53:58.654163157 +0900
++++ hid-input.c 2020-09-01 09:46:55.925059406 +0900
+@@ -310,6 +310,12 @@
         { HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_APPLE,
                 USB_DEVICE_ID_APPLE_ALU_WIRELESS_ANSI),
           HID_BATTERY_QUIRK_PERCENT | HID_BATTERY_QUIRK_FEATURE },
-+       { HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_APPLE,
-+               USB_DEVICE_ID_APPLE_MAGICTRACKPAD2),
++       { HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_MAGICMOUSE),
++         HID_BATTERY_QUIRK_IGNORE },
++       { HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_MAGICTRACKPAD),
++         HID_BATTERY_QUIRK_IGNORE },
++       { HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_MAGICTRACKPAD2),
 +         HID_BATTERY_QUIRK_IGNORE },
         { HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_ELECOM,
                 USB_DEVICE_ID_ELECOM_BM084),
